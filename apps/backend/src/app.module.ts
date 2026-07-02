@@ -1,6 +1,6 @@
 // ──── Módulo Principal do NestJS ────
 
-import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from './config/config.module';
 import { PrismaModule } from './database/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -63,9 +63,8 @@ export class AppModule implements NestModule {
     consumer
       .apply(TenantMiddleware)
       .exclude(
-        'api/v1/auth/(.*)',
-        'api/v1/installer/(.*)',
-        'api/v1/health',
+        { path: 'auth/(.*)', method: RequestMethod.ALL },
+        { path: 'health', method: RequestMethod.ALL },
       )
       .forRoutes('*');
   }

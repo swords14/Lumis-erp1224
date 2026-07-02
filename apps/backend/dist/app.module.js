@@ -32,7 +32,7 @@ let AppModule = class AppModule {
         // Aplica o middleware de tenant em todas as rotas (exceto auth)
         consumer
             .apply(tenant_middleware_1.TenantMiddleware)
-            .exclude('api/v1/auth/(.*)', 'api/v1/installer/(.*)', 'api/v1/health')
+            .exclude({ path: 'auth/(.*)', method: common_1.RequestMethod.ALL }, { path: 'health', method: common_1.RequestMethod.ALL })
             .forRoutes('*');
     }
 };

@@ -1,1 +1,69 @@
-node_modules
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Tauri
+src-tauri/target/
+src-tauri/icons/icon.png
+src-tauri/icons/icon.ico
+
+# Prisma
+prisma/migrations/
+
+# Rust
+target/
+debug/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.turbo
+.cache
+*.tsbuildinfo
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+temp/
+tmp/
+backups/
+uploads/
+
+# Husky
+.husky/_
+
+# Package locks (keep only root)
+apps/*/package-lock.json
+packages/*/package-lock.json

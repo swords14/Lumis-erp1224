@@ -4,13 +4,13 @@ import { useAuthStore } from '@/stores/auth.store';
 import { AuthLayout } from '@/layouts/AuthLayout';
 import { AppLayout } from '@/layouts/AppLayout';
 import { LoginPage } from '@/pages/auth/LoginPage';
-
-const DashboardPage = () => (
-  <div className="p-8">
-    <h1 className="text-2xl font-semibold">Dashboard</h1>
-    <p className="text-gray-500 mt-2">Bem-vindo ao Ferramenta ERP</p>
-  </div>
-);
+import { DashboardPage } from '@/pages/DashboardPage';
+import { ClientesPage } from '@/pages/ClientesPage';
+import { ProdutosPage } from '@/pages/ProdutosPage';
+import { VendasPage } from '@/pages/VendasPage';
+import { FinanceiroPage } from '@/pages/FinanceiroPage';
+import { ConfiguracoesPage } from '@/pages/ConfiguracoesPage';
+import { RelatoriosPage } from '@/pages/RelatoriosPage';
 
 export default function App() {
   const { isAuthenticated } = useAuthStore();
@@ -18,19 +18,21 @@ export default function App() {
   return (
     <AnimatePresence mode="wait">
       <Routes>
-        {/* Rotas Públicas */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
         </Route>
 
-        {/* Rotas Autenticadas */}
         <Route
-          element={
-            isAuthenticated ? <AppLayout /> : <Navigate to="/login" replace />
-          }
+          element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" replace />}
         >
           <Route path="/" element={<DashboardPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/clientes" element={<ClientesPage />} />
+          <Route path="/produtos" element={<ProdutosPage />} />
+          <Route path="/vendas" element={<VendasPage />} />
+          <Route path="/financeiro" element={<FinanceiroPage />} />
+          <Route path="/relatorios" element={<RelatoriosPage />} />
+          <Route path="/configuracoes" element={<ConfiguracoesPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
