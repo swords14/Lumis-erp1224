@@ -17,7 +17,9 @@ function createCRUDService<T extends { id: string }>(endpoint: string) {
 export const clientesService = createCRUDService('/people');
 export const produtosService = createCRUDService('/products');
 export const vendasService = createCRUDService('/sales');
-export const financeiroService = createCRUDService('/financial/transactions');
+export const financeiroService = Object.assign(createCRUDService('/financial/transactions'), {
+  getStats: () => api.get('/financial/stats').then((r) => r.data),
+});
 
 // Dashboard stats
 export const dashboardService = {
