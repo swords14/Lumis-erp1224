@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { Bell, Moon, Sun, LogOut, X, Settings } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth.store';
+import { useUIStore } from '@/stores/ui.store';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Header() {
   const { user, logout } = useAuthStore();
+  const { theme, setTheme } = useUIStore();
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+
+  const isDark = theme === 'dark' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
+    const next = isDark ? 'light' : 'dark';
+    setTheme(next);
   };
 
   const notifications = [
