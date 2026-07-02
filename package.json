@@ -1,0 +1,44 @@
+{
+  "name": "ferramenta-erp",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ERP Moderno - Gestão Empresarial Inteligente",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:frontend": "turbo run dev --filter=@ferramenta/frontend",
+    "dev:backend": "turbo run dev --filter=@ferramenta/backend",
+    "dev:desktop": "turbo run dev --filter=@ferramenta/desktop",
+    "build": "turbo run build",
+    "build:frontend": "turbo run build --filter=@ferramenta/frontend",
+    "build:backend": "turbo run build --filter=@ferramenta/backend",
+    "build:desktop": "turbo run build --filter=@ferramenta/desktop",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "db:migrate": "turbo run db:migrate --filter=@ferramenta/database",
+    "db:seed": "turbo run db:seed --filter=@ferramenta/database",
+    "db:studio": "turbo run db:studio --filter=@ferramenta/database",
+    "db:generate": "turbo run db:generate --filter=@ferramenta/database",
+    "clean": "turbo run clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "husky": "^9.0.0",
+    "prettier": "^3.3.0",
+    "rimraf": "^6.0.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "packageManager": "npm@10.0.0"
+}

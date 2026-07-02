@@ -1,0 +1,599 @@
+// ──── Prisma Schema - Ferramenta ERP ────
+// PostgreSQL com Row-Level Security para multiempresa
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+// ════════════════════════════════════════════════════
+// TENANT (Empresa) - Multiempresa
+// ════════════════════════════════════════════════════
+
+model Tenant {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar(200)
+  fantasyName  String?  @db.VarChar(200)
+  document     String?  @db.VarChar(14) // CNPJ
+  businessType String   @db.VarChar(50)
+  taxRegime    String?  @db.VarChar(50)
+  status       String   @default("ativo") @db.VarChar(20)
+  logo         String?  @db.Text
+  primaryColor String?  @db.VarChar(7)  // #HEX
+  config       Json     @default("{}")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  contacts  Contact[]
+  users     User[]
+  roles     Role[]
+  people    Person[]
+  products  Product[]
+  productCategories ProductCategory[]
+  stockMovements    StockMovement[]
+  sales     Sale[]
+  accounts  FinancialAccount[]
+  transactions   FinancialTransaction[]
+  auditLogs AuditLog[]
+  backups   Backup[]
+  sessions  Session[]
+  knowledgeBase KnowledgeEntry[]
+  guidedTours   GuidedTour[]
+  userProgress   UserProgress[]
+  notifications  Notification[]
+
+  @@map("tenants")
+}
+
+// ════════════════════════════════════════════════════
+// USUÁRIO
+// ════════════════════════════════════════════════════
+
+model User {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String   @db.Uuid
+  name            String   @db.VarChar(200)
+  email           String   @unique @db.VarChar(255)
+  passwordHash    String   @db.VarChar(255)
+  avatar          String?  @db.Text
+  role            String   @db.VarChar(50)
+  experienceLevel String   @default("iniciante") @db.VarChar(20)
+  status          String   @default("ativo") @db.VarChar(20)
+  preferences     Json     @default("{}")
+  loginAttempts   Int      @default(0)
+  lockedUntil     DateTime?
+  lastLoginAt     DateTime?
+  lastLoginIp     String?  @db.VarChar(45)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenant       Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions     Session[]
+  auditLogs    AuditLog[]
+  userProgress UserProgress?
+  notifications Notification[]
+  sales        Sale[]      @relation("SaleUser")
+  transactions FinancialTransaction[] @relation("TransactionUser")
+  guidedTours  GuidedTour[]
+
+  @@index([tenantId])
+  @@index([email])
+  @@map("users")
+}
+
+// ════════════════════════════════════════════════════
+// PERFIL (Role) & PERMISSÕES
+// ════════════════════════════════════════════════════
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  name        String   @db.VarChar(100)
+  description String?  @db.Text
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  permissions Permission[]
+
+  @@unique([tenantId, name])
+  @@map("roles")
+}
+
+model Permission {
+  id         String   @id @default(uuid()) @db.Uuid
+  roleId     String   @db.Uuid
+  module     String   @db.VarChar(50)
+  actions    String[] @db.VarChar(20) // criar, ler, atualizar, excluir...
+  conditions Json?
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@index([roleId, module])
+  @@map("permissions")
+}
+
+// ════════════════════════════════════════════════════
+// ENDEREÇO (Value Object)
+// ════════════════════════════════════════════════════
+
+model Address {
+  id           String  @id @default(uuid()) @db.Uuid
+  tenantId     String? @db.Uuid
+  personId     String? @db.Uuid
+  type         String  @default("comercial") @db.VarChar(20)
+  cep          String  @db.VarChar(8)
+  street       String  @db.VarChar(200)
+  number       String  @db.VarChar(20)
+  complement   String? @db.VarChar(100)
+  neighborhood String  @db.VarChar(100)
+  city         String  @db.VarChar(100)
+  state        String  @db.Char(2)
+  country      String  @default("Brasil") @db.VarChar(50)
+  isDefault    Boolean @default(false)
+
+  person Person? @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@index([personId])
+  @@map("addresses")
+}
+
+// ════════════════════════════════════════════════════
+// CONTATO (Value Object)
+// ════════════════════════════════════════════════════
+
+model Contact {
+  id        String  @id @default(uuid()) @db.Uuid
+  tenantId  String? @db.Uuid
+  personId  String? @db.Uuid
+  type      String  @db.VarChar(20) // telefone, celular, email, whatsapp...
+  value     String  @db.VarChar(255)
+  label     String? @db.VarChar(100)
+  isDefault Boolean @default(false)
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  person Person? @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@index([personId])
+  @@map("contacts")
+}
+
+// ════════════════════════════════════════════════════
+// DOCUMENTO (Value Object)
+// ════════════════════════════════════════════════════
+
+model Document {
+  id       String @id @default(uuid()) @db.Uuid
+  personId String @db.Uuid
+  type     String @db.VarChar(20) // cpf, cnpj, rg, ie...
+  value    String @db.VarChar(30)
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@index([personId])
+  @@map("documents")
+}
+
+// ════════════════════════════════════════════════════
+// PESSOA (Cliente / Fornecedor)
+// ════════════════════════════════════════════════════
+
+model Person {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @db.Uuid
+  type       String   @db.VarChar(10) // fisica, juridica
+  name       String   @db.VarChar(200)
+  fantasyName String? @db.VarChar(200)
+  birthDate  DateTime? @db.Date
+  gender     String?  @db.VarChar(20)
+  notes      String?  @db.Text
+  tags       String[] @db.VarChar(50)
+  isSupplier Boolean  @default(false)
+  isCustomer Boolean  @default(true)
+  status     String   @default("ativo") @db.VarChar(20)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  documents  Document[]
+  contacts   Contact[]
+  addresses  Address[]
+  sales      Sale[]
+  transactions FinancialTransaction[]
+
+  @@index([tenantId])
+  @@index([name])
+  @@index([type])
+  @@map("people")
+}
+
+// ════════════════════════════════════════════════════
+// PRODUTO
+// ════════════════════════════════════════════════════
+
+model Product {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @db.Uuid
+  code          String   @db.VarChar(50)
+  barcode       String?  @db.VarChar(50)
+  name          String   @db.VarChar(200)
+  description   String?  @db.Text
+  unitOfMeasure String   @default("un") @db.VarChar(10)
+  categoryId    String?  @db.Uuid
+  brand         String?  @db.VarChar(100)
+  costPrice     Int      @default(0) // centavos
+  sellingPrice  Int      @default(0) // centavos
+  minStock      Int      @default(0)
+  maxStock      Int      @default(999)
+  currentStock  Int      @default(0)
+  weight        Decimal? @db.Decimal(10, 3)
+  width         Decimal? @db.Decimal(10, 3)
+  height        Decimal? @db.Decimal(10, 3)
+  depth         Decimal? @db.Decimal(10, 3)
+  image         String?  @db.Text
+  isService     Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  tags          String[] @db.VarChar(50)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant       Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  category     ProductCategory? @relation(fields: [categoryId], references: [id])
+  saleItems    SaleItem[]
+  stockMovements StockMovement[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([barcode])
+  @@index([name])
+  @@map("products")
+}
+
+model ProductCategory {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  name        String   @db.VarChar(100)
+  description String?  @db.Text
+  parentId    String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant   Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent   ProductCategory?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children ProductCategory[] @relation("CategoryTree")
+  products Product[]
+
+  @@index([tenantId])
+  @@index([parentId])
+  @@map("product_categories")
+}
+
+// ════════════════════════════════════════════════════
+// ESTOQUE
+// ════════════════════════════════════════════════════
+
+model StockMovement {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @db.Uuid
+  productId     String   @db.Uuid
+  type          String   @db.VarChar(20) // entrada, saida, transferencia
+  quantity      Int
+  unitPrice     Int      @default(0) // centavos
+  reason        String?  @db.VarChar(255)
+  referenceId   String?  @db.Uuid
+  referenceType String?  @db.VarChar(50)
+  userId        String   @db.Uuid
+  createdAt     DateTime @default(now())
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([productId])
+  @@index([createdAt])
+  @@map("stock_movements")
+}
+
+// ════════════════════════════════════════════════════
+// VENDA
+// ════════════════════════════════════════════════════
+
+model Sale {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @db.Uuid
+  number     String   @db.VarChar(50)
+  customerId String?  @db.Uuid
+  subtotal   Int      @default(0) // centavos
+  discount   Int      @default(0) // centavos
+  additions  Int      @default(0) // centavos
+  total      Int      @default(0) // centavos
+  status     String   @default("pendente") @db.VarChar(20)
+  notes      String?  @db.Text
+  userId     String   @db.Uuid
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant   Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customer Person?    @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  user     User       @relation("SaleUser", fields: [userId], references: [id])
+  items    SaleItem[]
+  payments Payment[]
+  transactions FinancialTransaction[]
+
+  @@unique([tenantId, number])
+  @@index([tenantId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("sales")
+}
+
+model SaleItem {
+  id        String @id @default(uuid()) @db.Uuid
+  saleId    String @db.Uuid
+  productId String @db.Uuid
+  quantity  Int
+  unitPrice Int    // centavos
+  discount  Int    @default(0) // centavos
+  total     Int    @default(0) // centavos
+
+  sale    Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([saleId])
+  @@index([productId])
+  @@map("sale_items")
+}
+
+model Payment {
+  id           String    @id @default(uuid()) @db.Uuid
+  saleId       String    @db.Uuid
+  method       String    @db.VarChar(30) // dinheiro, pix, cartao...
+  amount       Int       // centavos
+  installments Int       @default(1)
+  dueDate      DateTime?
+  paidAt       DateTime?
+  status       String    @default("pendente") @db.VarChar(20)
+  notes        String?   @db.VarChar(255)
+
+  sale Sale @relation(fields: [saleId], references: [id], onDelete: Cascade)
+
+  @@index([saleId])
+  @@map("payments")
+}
+
+// ════════════════════════════════════════════════════
+// FINANCEIRO
+// ════════════════════════════════════════════════════
+
+model FinancialAccount {
+  id             String   @id @default(uuid()) @db.Uuid
+  tenantId       String   @db.Uuid
+  name           String   @db.VarChar(100)
+  type           String   @db.VarChar(30) // conta_corrente, caixa...
+  bank           String?  @db.VarChar(100)
+  agency         String?  @db.VarChar(20)
+  account        String?  @db.VarChar(20)
+  initialBalance Int      @default(0) // centavos
+  currentBalance Int      @default(0) // centavos
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tenant       Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  transactions FinancialTransaction[]
+
+  @@index([tenantId])
+  @@map("financial_accounts")
+}
+
+model FinancialTransaction {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  accountId    String   @db.Uuid
+  category     String   @db.VarChar(30) // receita, despesa...
+  subcategory  String?  @db.VarChar(50)
+  description  String   @db.VarChar(255)
+  amount       Int      // centavos
+  dueDate      DateTime @db.Date
+  paidAt       DateTime?
+  status       String   @default("pendente") @db.VarChar(20)
+  personId     String?  @db.Uuid
+  saleId       String?  @db.Uuid
+  attachments  String[] @db.Text
+  recurrence   Json?
+  notes        String?  @db.Text
+  userId       String   @db.Uuid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  account FinancialAccount  @relation(fields: [accountId], references: [id])
+  person  Person?           @relation(fields: [personId], references: [id], onDelete: SetNull)
+  sale    Sale?             @relation(fields: [saleId], references: [id], onDelete: SetNull)
+  user    User              @relation("TransactionUser", fields: [userId], references: [id])
+
+  @@index([tenantId])
+  @@index([accountId])
+  @@index([category])
+  @@index([dueDate])
+  @@index([status])
+  @@map("financial_transactions")
+}
+
+// ════════════════════════════════════════════════════
+// AUDITORIA
+// ════════════════════════════════════════════════════
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @db.Uuid
+  userId     String   @db.Uuid
+  action     String   @db.VarChar(50)
+  entity     String   @db.VarChar(50)
+  entityId   String?  @db.Uuid
+  oldValues  Json?
+  newValues  Json?
+  ip         String?  @db.VarChar(45)
+  userAgent  String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ════════════════════════════════════════════════════
+// SESSÃO
+// ════════════════════════════════════════════════════
+
+model Session {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  tenantId     String   @db.Uuid
+  token        String   @unique @db.Text
+  refreshToken String   @unique @db.Text
+  ip           String?  @db.VarChar(45)
+  userAgent    String?  @db.Text
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tenantId])
+  @@index([token])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+// ════════════════════════════════════════════════════
+// BACKUP
+// ════════════════════════════════════════════════════
+
+model Backup {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  filename  String   @db.VarChar(255)
+  size      BigInt
+  type      String   @db.VarChar(20) // automatico, manual
+  status    String   @db.VarChar(20) // pendente, executando, concluido, erro
+  path      String?  @db.Text
+  error     String?  @db.Text
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([createdAt])
+  @@map("backups")
+}
+
+// ════════════════════════════════════════════════════
+// ASSISTENTE - BASE DE CONHECIMENTO
+// ════════════════════════════════════════════════════
+
+model KnowledgeEntry {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  intent    String   @db.VarChar(200)
+  keywords  String[] @db.VarChar(100)
+  answer    String   @db.Text
+  tourId    String?  @db.VarChar(100)
+  moduleId  String?  @db.VarChar(50)
+  action    String?  @db.Text    // URL ou ação
+  priority  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([intent])
+  @@map("knowledge_entries")
+}
+
+// ════════════════════════════════════════════════════
+// TOUR GUIADO
+// ════════════════════════════════════════════════════
+
+model GuidedTour {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  name         String   @db.VarChar(200)
+  description  String   @db.Text
+  type         String   @db.VarChar(30) // primeiro_acesso, modulo...
+  targetModule String?  @db.VarChar(50)
+  steps        Json     // Array de TourStep
+  createdById  String?  @db.Uuid
+  createdAt    DateTime @default(now())
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdBy User?  @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@map("guided_tours")
+}
+
+// ════════════════════════════════════════════════════
+// PROGRESSO DO USUÁRIO
+// ════════════════════════════════════════════════════
+
+model UserProgress {
+  id                 String   @id @default(uuid()) @db.Uuid
+  userId             String   @unique @db.Uuid
+  tenantId           String   @db.Uuid
+  firstSaleCompleted Boolean  @default(false)
+  firstProductCreated Boolean @default(false)
+  firstCustomerCreated Boolean @default(false)
+  firstSupplierCreated Boolean @default(false)
+  firstExpenseCreated  Boolean @default(false)
+  firstBudgetCreated   Boolean @default(false)
+  completedTours     String[] @db.VarChar(100)
+  completedTutorials String[] @db.VarChar(100)
+  experienceLevel    String   @default("iniciante") @db.VarChar(20)
+  points             Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@map("user_progress")
+}
+
+// ════════════════════════════════════════════════════
+// NOTIFICAÇÕES
+// ════════════════════════════════════════════════════
+
+model Notification {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @db.Uuid
+  userId     String   @db.Uuid
+  type       String   @db.VarChar(20) // info, success, warning, error
+  title      String   @db.VarChar(200)
+  message    String   @db.Text
+  actionLabel String? @db.VarChar(100)
+  actionUrl   String? @db.Text
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([tenantId])
+  @@map("notifications")
+}
