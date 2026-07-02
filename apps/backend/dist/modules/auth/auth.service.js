@@ -138,7 +138,7 @@ let AuthService = class AuthService {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                avatar: user.avatar,
+                avatar: user.avatar ?? undefined,
                 role: user.role,
                 tenantId: selectedTenant.id,
                 tenantName: selectedTenant.name,
@@ -218,7 +218,7 @@ let AuthService = class AuthService {
     async generateTokens(userId, tenantId, ip, userAgent) {
         const payload = { sub: userId, tenantId };
         const accessToken = this.jwtService.sign(payload, {
-            expiresIn: process.env.JWT_EXPIRATION || '15m',
+            expiresIn: (process.env.JWT_EXPIRATION || '15m'),
         });
         const refreshToken = (0, uuid_1.v4)();
         // Salva sessão

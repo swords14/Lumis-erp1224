@@ -19,7 +19,17 @@ export declare class TenantService {
         logo: string | null;
         config: import("@prisma/client/runtime/library").JsonValue;
     }[]>;
-    findById(id: UUID): Promise<{
+    findById(id: UUID): Promise<({
+        contacts: {
+            tenantId: string | null;
+            personId: string | null;
+            type: string;
+            label: string | null;
+            value: string;
+            isDefault: boolean;
+            id: string;
+        }[];
+    } & {
         name: string;
         document: string | null;
         status: string;
@@ -32,7 +42,7 @@ export declare class TenantService {
         updatedAt: Date;
         logo: string | null;
         config: import("@prisma/client/runtime/library").JsonValue;
-    } | null>;
+    }) | null>;
     create(data: {
         name: string;
         fantasyName?: string;

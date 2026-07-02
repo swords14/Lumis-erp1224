@@ -119,7 +119,7 @@ export class AuthService {
         id: user.id,
         name: user.name,
         email: user.email,
-        avatar: user.avatar,
+        avatar: user.avatar ?? undefined,
         role: user.role,
         tenantId: selectedTenant.id,
         tenantName: selectedTenant.name,
@@ -232,7 +232,7 @@ export class AuthService {
     const payload = { sub: userId, tenantId };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: process.env.JWT_EXPIRATION || '15m',
+      expiresIn: (process.env.JWT_EXPIRATION || '15m') as any,
     });
 
     const refreshToken = uuid();

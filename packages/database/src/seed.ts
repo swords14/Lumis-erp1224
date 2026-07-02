@@ -52,6 +52,7 @@ async function main() {
         create: {
           experienceLevel: 'especialista',
           points: 1000,
+          tenantId: tenant.id,
         },
       },
     },

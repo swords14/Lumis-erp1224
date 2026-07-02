@@ -33,12 +33,15 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const common_1 = require("@nestjs/common");
 const app_module_1 = require("./app.module");
 const helmet = __importStar(require("helmet"));
-const compression = __importStar(require("compression"));
+const compression_1 = __importDefault(require("compression"));
 const cookieParser = __importStar(require("cookie-parser"));
 async function bootstrap() {
     const logger = new common_1.Logger('Bootstrap');
@@ -54,7 +57,7 @@ async function bootstrap() {
         allowedHeaders: ['Content-Type', 'Authorization', 'X-Tenant-Id'],
     });
     // ──── Performance ────
-    app.use(compression());
+    app.use((0, compression_1.default)());
     app.use(cookieParser.default());
     // ──── Prefixo Global da API ────
     app.setGlobalPrefix('api/v1');

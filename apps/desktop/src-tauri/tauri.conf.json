@@ -10,7 +10,6 @@
     "frontendDist": "../frontend/dist"
   },
   "app": {
-    "title": "Ferramenta ERP",
     "windows": [
       {
         "title": "Ferramenta ERP",

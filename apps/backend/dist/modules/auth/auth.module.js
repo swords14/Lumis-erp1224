@@ -27,7 +27,7 @@ exports.AuthModule = AuthModule = __decorate([
                 useFactory: () => ({
                     secret: process.env.JWT_SECRET || 'ferramenta-secret-key-change-in-production',
                     signOptions: {
-                        expiresIn: process.env.JWT_EXPIRATION || '15m',
+                        expiresIn: (process.env.JWT_EXPIRATION || '15m'),
                     },
                 }),
             }),

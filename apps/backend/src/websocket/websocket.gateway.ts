@@ -7,7 +7,7 @@ import { Server, Socket } from 'socket.io';
 })
 export class WebSocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   private connectedClients = new Map<string, string>();
 

@@ -18,7 +18,7 @@ export class TenantService {
   async findById(id: UUID) {
     return this.prisma.tenant.findUnique({
       where: { id },
-      include: { address: true, contacts: true },
+      include: { contacts: true },
     });
   }
 
@@ -36,6 +36,7 @@ export class TenantService {
     });
     if (exists) throw new BadRequestException('Empresa já cadastrada.');
 
+    // Cria tenant
     const tenant = await this.prisma.tenant.create({
       data: {
         name: data.name,
@@ -43,18 +44,6 @@ export class TenantService {
         document: data.document,
         businessType: data.businessType,
         config: { timezone: 'America/Sao_Paulo', language: 'pt-BR', currency: 'BRL' },
-        users: {
-          create: {
-            name: data.adminName,
-            email: data.adminEmail,
-            passwordHash: await bcrypt.hash(data.adminPassword, 12),
-            role: 'admin',
-            preferences: { theme: 'system', sidebarCollapsed: false, language: 'pt-BR' },
-            userProgress: {
-              create: { experienceLevel: 'iniciante', points: 0 },
-            },
-          },
-        },
         roles: {
           createMany: {
             data: [
@@ -62,6 +51,25 @@ export class TenantService {
               { name: 'Gerente', isSystem: true, description: 'Gerente' },
               { name: 'Operador', isSystem: true, description: 'Operador' },
             ],
+          },
+        },
+      },
+    });
+
+    // Cria admin user com progress separadamente
+    await this.prisma.user.create({
+      data: {
+        name: data.adminName,
+        email: data.adminEmail,
+        passwordHash: await bcrypt.hash(data.adminPassword, 12),
+        role: 'admin',
+        tenantId: tenant.id,
+        preferences: { theme: 'system', sidebarCollapsed: false, language: 'pt-BR' },
+        userProgress: {
+          create: {
+            experienceLevel: 'iniciante',
+            points: 0,
+            tenantId: tenant.id,
           },
         },
       },
