@@ -22,6 +22,7 @@ const financial_module_1 = require("./modules/financial/financial.module");
 const audit_module_1 = require("./modules/audit/audit.module");
 const backup_module_1 = require("./modules/backup/backup.module");
 const assistant_module_1 = require("./modules/assistant/assistant.module");
+const dashboard_module_1 = require("./modules/dashboard/dashboard.module");
 const events_module_1 = require("./events/events.module");
 const websocket_module_1 = require("./websocket/websocket.module");
 const tenant_middleware_1 = require("./common/middleware/tenant.middleware");
@@ -63,6 +64,7 @@ exports.AppModule = AppModule = __decorate([
             audit_module_1.AuditModule,
             backup_module_1.BackupModule,
             assistant_module_1.AssistantModule,
+            dashboard_module_1.DashboardModule,
         ],
         providers: [
             // Rate limiting global

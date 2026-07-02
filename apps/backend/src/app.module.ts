@@ -14,6 +14,7 @@ import { FinancialModule } from './modules/financial/financial.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { BackupModule } from './modules/backup/backup.module';
 import { AssistantModule } from './modules/assistant/assistant.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { EventsModule } from './events/events.module';
 import { WebSocketModule } from './websocket/websocket.module';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
@@ -48,6 +49,7 @@ import { APP_GUARD } from '@nestjs/core';
     AuditModule,
     BackupModule,
     AssistantModule,
+    DashboardModule,
   ],
   providers: [
     // Rate limiting global
