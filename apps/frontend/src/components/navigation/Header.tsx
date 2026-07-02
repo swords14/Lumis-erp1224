@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Bell, Moon, Sun, LogOut, X, Settings } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth.store';
 import { useUIStore } from '@/stores/ui.store';
+import { useNotificationStore } from '@/stores/notification.store';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Header() {
   const { user, logout } = useAuthStore();
   const { theme, setTheme } = useUIStore();
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationStore();
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
 
@@ -17,12 +19,6 @@ export function Header() {
     const next = isDark ? 'light' : 'dark';
     setTheme(next);
   };
-
-  const notifications = [
-    { id: 1, title: 'Bem-vindo!', body: 'Sistema iniciado com sucesso.', time: 'Agora', type: 'success' as const },
-    { id: 2, title: 'Dica', body: 'Use Ctrl+K para busca rápida.', time: 'Agora', type: 'info' as const },
-    { id: 3, title: 'Segurança', body: 'Configure o backup automático em Configurações.', time: '5 min', type: 'warning' as const },
-  ];
 
   return (
     <header className="h-14 flex items-center justify-between px-6 bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl border-b border-white/10 z-10">
@@ -47,7 +43,11 @@ export function Header() {
             className="relative p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-gray-400 transition-colors"
           >
             <Bell size={17} />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-900" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 rounded-full bg-red-500 text-white text-[10px] font-bold ring-2 ring-white dark:ring-gray-900">
+                {unreadCount}
+              </span>
+            )}
           </button>
 
           <AnimatePresence>
@@ -67,13 +67,15 @@ export function Header() {
                 </div>
                 <div className="max-h-72 overflow-y-auto">
                   {notifications.map((n) => (
-                    <div key={n.id} className="flex items-start gap-3 p-3 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] border-b border-white/5 last:border-0 cursor-pointer">
-                      <div className={`w-2 h-2 rounded-full mt-2 ${
-                        n.type === 'success' ? 'bg-emerald-400' : n.type === 'warning' ? 'bg-amber-400' : 'bg-blue-400'
-                      }`} />
+                    <div
+                      key={n.id}
+                      onClick={() => markAsRead(n.id)}
+                      className={`flex items-start gap-3 p-3 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] border-b border-white/5 last:border-0 cursor-pointer transition-colors ${!n.read ? 'bg-blue-500/[0.03] dark:bg-blue-500/[0.05]' : ''}`}
+                    >
+                      <div className={`w-2 h-2 rounded-full mt-2 ${!n.read ? 'bg-blue-500 animate-pulse' : n.type === 'success' ? 'bg-emerald-400' : n.type === 'warning' ? 'bg-amber-400' : 'bg-gray-400'}`} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-gray-900 dark:text-white">{n.title}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{n.body}</p>
+                        <p className={`text-xs font-medium ${!n.read ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>{n.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{n.message}</p>
                       </div>
                       <span className="text-[10px] text-gray-400 dark:text-gray-500 shrink-0">{n.time}</span>
                     </div>

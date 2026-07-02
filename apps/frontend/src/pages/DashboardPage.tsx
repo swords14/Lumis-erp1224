@@ -44,7 +44,10 @@ const stats = [
   },
 ];
 
+import { useNavigate } from 'react-router-dom';
+
 export function DashboardPage() {
+  const navigate = useNavigate();
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -157,6 +160,12 @@ export function DashboardPage() {
             ].map((action) => (
               <button
                 key={action.label}
+                onClick={() => {
+                  if (action.label === 'Nova Venda') navigate('/vendas');
+                  else if (action.label === 'Novo Cliente') navigate('/clientes');
+                  else if (action.label === 'Novo Produto') navigate('/produtos');
+                  else navigate('/relatorios');
+                }}
                 className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/40 dark:bg-white/5 hover:bg-white/60 dark:hover:bg-white/10 transition-all duration-200 group"
               >
                 <div

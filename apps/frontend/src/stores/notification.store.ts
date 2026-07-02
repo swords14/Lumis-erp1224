@@ -5,6 +5,7 @@ interface Notification {
   id: string;
   title: string;
   message: string;
+  time: string;
   type: 'info' | 'success' | 'warning' | 'error';
   read: boolean;
   createdAt: string;
@@ -21,9 +22,9 @@ interface NotificationState {
 
 export const useNotificationStore = create<NotificationState>((set, get) => ({
   notifications: [
-    { id: '1', title: 'Bem-vindo! ✨', message: 'Sistema iniciado com sucesso. Explore os módulos na barra lateral.', type: 'success', read: false, createdAt: new Date().toISOString() },
-    { id: '2', title: 'Dica rápida', message: 'Use Ctrl+K para abrir a busca rápida e navegar entre os módulos.', type: 'info', read: false, createdAt: new Date().toISOString() },
-    { id: '3', title: 'Segurança', message: 'Configure o backup automático em Configurações > Backup.', type: 'warning', read: false, createdAt: new Date().toISOString() },
+    { id: '1', title: 'Bem-vindo! ✨', message: 'Sistema iniciado com sucesso. Explore os módulos na barra lateral.', time: 'Agora', type: 'success', read: false, createdAt: new Date().toISOString() },
+    { id: '2', title: 'Dica rápida', message: 'Use Ctrl+K para abrir a busca rápida e navegar entre os módulos.', time: 'Agora', type: 'info', read: false, createdAt: new Date().toISOString() },
+    { id: '3', title: 'Segurança', message: 'Configure o backup automático em Configurações > Backup.', time: '5 min', type: 'warning', read: false, createdAt: new Date().toISOString() },
   ],
   unreadCount: 3,
   loading: false,
