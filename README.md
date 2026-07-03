@@ -1,191 +1,381 @@
-# 🚀 Ferramenta ERP
-
 <div align="center">
 
-### ERP moderno, gratuito e open source para pequenas e médias empresas.
+# 🚀 Ferramenta ERP
 
-Desktop • Offline • Multiempresa • Rápido • Moderno
+### ERP moderno, gratuito e Open Source para pequenas e médias empresas.
+
+Desktop • Offline • Multiempresa • Seguro • Rápido
 
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)
-![Licença](https://img.shields.io/badge/licença-MIT-green)
-![Stack](https://img.shields.io/badge/stack-React%20%7C%20NestJS%20%7C%20PostgreSQL-blueviolet)
+![License](https://img.shields.io/badge/license-AGPL%20v3-green)
+![React](https://img.shields.io/badge/React-19-61DAFB)
+![NestJS](https://img.shields.io/badge/NestJS-E0234E)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
+![Tauri](https://img.shields.io/badge/Tauri-2.x-orange)
 
-## ✨ Funcionalidades
+⭐ Se este projeto for útil para você, deixe uma estrela no repositório.
 
-### 📊 Dashboard
-- Métricas em tempo real (receita, vendas, clientes, produtos)
-- Gráfico de faturamento semanal com dados reais
-- Variação percentual mensal
-- Ações rápidas para criar vendas, clientes e produtos
-- Skeleton loader durante carregamento
+</div>
 
-### 🛒 Vendas (PDV)
-- Carrinho de compras com múltiplos itens
-- Busca de produtos por nome ou código com autocomplete
-- Controle de quantidade (+/-) por item
-- Busca de cliente para associar à venda
-- **Múltiplas formas de pagamento na mesma venda** (dinheiro + PIX + cartão + boleto)
+---
+
+# ❤️ Nossa missão
+
+O **Ferramenta ERP** nasceu com um objetivo simples:
+
+> Tornar sistemas de gestão empresarial modernos acessíveis para qualquer empresa.
+
+Acreditamos que pequenas e médias empresas não deveriam depender de softwares caros ou ultrapassados para administrar seus negócios.
+
+Por isso o Ferramenta ERP é desenvolvido como um projeto **Open Source**, gratuito para utilização e aberto à colaboração da comunidade.
+
+---
+
+# ✨ Principais diferenciais
+
+- ✅ 100% Open Source
+- ✅ Gratuito para utilização
+- ✅ Desktop (Windows)
+- ✅ Funciona Offline
+- ✅ Multiempresa
+- ✅ Interface moderna
+- ✅ Alta performance (Tauri)
+- ✅ Controle Financeiro
+- ✅ Controle de Estoque
+- ✅ CRM
+- ✅ PDV
+- ✅ Auditoria
+- ✅ Sistema de Permissões (RBAC)
+- ✅ Backup
+- ✅ Internacionalização
+- ✅ Base de Conhecimento integrada
+
+---
+
+# 📸 Screenshots
+
+> Em breve
+
+- Dashboard
+- PDV
+- Financeiro
+- Estoque
+- Relatórios
+
+---
+
+# 📦 Funcionalidades
+
+## 📊 Dashboard
+
+- Indicadores em tempo real
+- Receita
+- Clientes
+- Produtos
+- Vendas
+- Skeleton Loading
+- Gráficos interativos
+
+---
+
+## 👥 Clientes
+
+- Cadastro PF/PJ
+- Histórico de compras
+- CRM
+- Pesquisa avançada
+- Filtros persistentes
+
+---
+
+## 🚛 Fornecedores
+
+- Cadastro completo
+- Gestão de fornecedores
+- Visualização em cards
+- Confirmação para exclusão
+
+---
+
+## 📦 Produtos
+
+- Controle de estoque
+- Estoque mínimo
+- Margem de lucro
+- Custos
+- Pesquisa rápida
+
+---
+
+## 🛒 Vendas (PDV)
+
+- Carrinho multi-itens
+- Diversas formas de pagamento
+- Descontos
+- Aprovação
+- Cancelamento
 - Cálculo automático de troco
-- Campo de desconto
-- Aprovação e cancelamento de vendas
-- Gráfico de pizza por status
 
-### 👥 Clientes (CRM)
-- Cadastro completo (PF/PJ, contatos, endereço)
-- Ficha do cliente com histórico de compras
-- Total gasto, ticket médio, última compra
-- Filtros por status, tipo, busca textual
-- Remoção com confirmação visual (ConfirmModal)
+---
 
-### 📦 Produtos
-- Catálogo com código, nome, preço de venda e custo
-- Controle de estoque mínimo com alertas visuais
-- Cálculo automático de margem
-- Filtros: estoque baixo, ordenação por preço/estoque
-- Valor total em estoque e custo
+## 💰 Financeiro
 
-### 🚛 Fornecedores
-- Cadastro e gestão de fornecedores
-- Visualização em cards ou tabela
-- Edição e remoção com confirmação visual
+- Fluxo de Caixa
+- Contas a pagar
+- Contas a receber
+- Indicadores
+- Gráficos
 
-### 💰 Financeiro
-- Contas a pagar e receber
-- Fluxo de caixa com gráfico de área (30 dias)
-- Gráfico de pizza por categoria
-- Comparativo mensal (últimos 6 meses)
-- Status: pendente, pago, atrasado
-- Marcação de pagamento/recebimento
+---
 
-### 📊 Estoque
-- Registro de entradas e saídas
-- Histórico de movimentações
-- Filtros por tipo (entrada/saída)
+## 📈 Relatórios
 
-### 📈 Relatórios
-- Vendas por período com gráfico diário (30 dias)
-- Fluxo financeiro com evolução
-- Clientes ativos com status
-- Catálogo de produtos com estoque
-- Estoque crítico (produtos abaixo do mínimo)
-- **Exportação CSV e PDF profissional**
-- Períodos: 7, 30 dias, mês atual, todo período
+- Exportação PDF
+- Exportação CSV
+- Relatórios financeiros
+- Estoque
+- Produtos
+- Clientes
 
-### 🔐 Segurança & Permissões (RBAC)
-- 4 níveis de acesso: Admin, Gerente, Operador, Leitura
-- 27 permissões granulares por módulo
-- PermissionsGuard no backend (NestJS)
-- Hook `usePermissions()` no frontend
+---
 
-### 📝 Auditoria
-- Registro automático de todas as ações (CREATE, UPDATE, DELETE)
-- Tabela `audit_logs` auto-gerada
-- Resources auditados: vendas, clientes, fornecedores, produtos
-- Tela dedicada de auditoria com paginação
+## 🔐 Segurança
 
-### ⚙️ Configurações
-- **3 temas**: Claro, Escuro, Sistema (automático)
-- **3 idiomas**: 🇧🇷 Português, 🇺🇸 English, 🇪🇸 Español
-- Dados da empresa (nome, CNPJ, segmento, endereço)
-- Upload de logo
-- Alteração de senha
-- Backup manual e automático (diário/semanal/mensal)
-- Configuração de impressão
+- JWT
+- Refresh Tokens
+- Argon2
+- RBAC
+- Auditoria
+- Row Level Security
+- Validação de dados
+- Proteção contra SQL Injection
 
-### 📚 Base de Conhecimento (Ctrl+K)
-- 16 artigos de ajuda em 9 categorias
-- Busca inteligente por título, palavras-chave e conteúdo
-- Navegação por categorias com ícones
-- Acesso rápido a módulos
-- Totalmente offline (sem dependência de API)
+---
 
-### 🌐 Internacionalização (i18n)
-- 200+ chaves de tradução
-- Cobertura completa: login, sidebar, header, todas as páginas
-- Base de conhecimento traduzida
-- Persistência em localStorage
+## 🌎 Internacionalização
 
-## 🛠 Stack Tecnológica
+- 🇧🇷 Português
+- 🇺🇸 English
+- 🇪🇸 Español
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Frontend | React 19, TypeScript, Vite |
-| Backend | NestJS, Prisma ORM |
-| Database | PostgreSQL 16 |
-| UI | Tailwind CSS, Framer Motion, Lucide Icons |
-| Gráficos | Recharts |
-| PDF | jsPDF + autotable |
-| State | Zustand, React Query |
-| Auth | JWT + Refresh tokens |
+Mais de 200 traduções em toda a aplicação.
 
-## 🚀 Como Rodar
+---
 
-### Pré-requisitos
-- Node.js 20+
-- PostgreSQL 16+
-- npm
+# 🏗 Arquitetura
 
-### Instalação
+```
+                 Ferramenta ERP
 
-```bash
-# Clone o repositório
-git clone https://github.com/Mathe/Ferramenta.git
-cd Ferramenta
-
-# Instale as dependências
-npm install
-cd apps/frontend && npm install
-cd ../backend && npm install
-
-# Configure o .env
-cp .env.example .env
-# Edite .env com suas credenciais do PostgreSQL
+              Desktop (Tauri)
+                     │
+        React 19 + TypeScript + Vite
+                     │
+                 NestJS API
+                     │
+             Prisma ORM
+                     │
+             PostgreSQL 16
 ```
 
-### Rodando
+---
+
+# 🛠 Stack Tecnológica
+
+| Camada | Tecnologia |
+|----------|------------|
+| Desktop | Tauri 2 |
+| Frontend | React 19 |
+| Backend | NestJS |
+| Banco | PostgreSQL 16 |
+| ORM | Prisma |
+| Estado | Zustand |
+| Server State | React Query |
+| CSS | Tailwind CSS |
+| Animações | Framer Motion |
+| Formulários | React Hook Form + Zod |
+| Gráficos | Recharts |
+| PDF | jsPDF |
+| Testes | Vitest + Playwright |
+
+---
+
+# 📂 Estrutura
+
+```
+apps/
+│
+├── desktop/
+├── frontend/
+└── backend/
+
+packages/
+│
+├── shared/
+├── database/
+├── ui/
+├── installer/
+└── assistant/
+
+docs/
+
+scripts/
+```
+
+---
+
+# 🚀 Instalação
+
+## Clone
+
+```bash
+git clone https://github.com/swords14/new.git
+```
+
+## Instale as dependências
+
+```bash
+npm install
+```
+
+## Frontend
+
+```bash
+cd apps/frontend
+
+npm run dev
+```
+
+## Backend
 
 ```bash
 cd apps/backend
 
 npm run start:dev
-
-# Terminal 2 - Frontend
-cd apps/frontend
-npm run dev
-
-# Acesse http://localhost:5173
 ```
 
-## 📂 Estrutura do Projeto
+---
+
+# 🗺 Roadmap
+
+## ✅ Implementado
+
+- Dashboard
+- Clientes
+- Fornecedores
+- Produtos
+- Estoque
+- Financeiro
+- Relatórios
+- PDV
+- Auditoria
+- RBAC
+- Internacionalização
+- Base de Conhecimento
+
+---
+
+## 🚧 Em desenvolvimento
+
+- Upload de imagens
+- Instalador Inteligente
+- Notificações em tempo real
+- PWA
+- Tour guiado
+- Orçamentos
+- Metas e comissões
+
+---
+
+## 🔮 Futuro
+
+- Multi-filiais
+- White Label
+- Marketplace
+- API Pública
+- Serviços (OS)
+
+---
+
+# 📖 Documentação
+
+A documentação completa encontra-se em:
 
 ```
-apps/
-├── frontend/         # React SPA (Vite)
-│   ├── src/
-│   │   ├── pages/        # 13 páginas (Dashboard, Clientes, PDV...)
-│   │   ├── components/   # UI, navegação, assistente
-│   │   ├── stores/       # Zustand (auth, i18n, ui, permissions)
-│   │   ├── hooks/        # useAdvancedSearch
-│   │   └── lib/          # masks, pdf, api, services
-├── backend/          # NestJS API
-│   └── src/
-│       └── modules/      # 12 módulos (auth, sale, audit...)
-└── packages/
-    ├── shared/       # Tipos e DTOs compartilhados
-    └── database/     # Schema Prisma + migrations
-
 docs/
-└── ARCHITECTURE.md   # Documentação completa da arquitetura
 ```
 
-## 📖 Documentação
+- Arquitetura
+- Roadmap
+- Instalador
+- API
+- Contribuição
 
-- [Arquitetura Completa](docs/ARCHITECTURE.md) - Stack, módulos, RBAC, auditoria, design system, roadmap
+---
 
-## 🤝 Contribuição
+# 🤝 Como contribuir
 
-Contribuições são bem-vindas! Por favor, abra uma issue ou pull request.
+Contribuições são muito bem-vindas.
 
-## 📝 Licença
+Você pode contribuir de diversas formas:
 
-MIT
+- Corrigindo bugs
+- Desenvolvendo novas funcionalidades
+- Melhorando a documentação
+- Traduzindo o sistema
+- Reportando problemas
+- Revisando Pull Requests
+
+Toda contribuição ajuda o projeto a evoluir.
+
+---
+
+# ❤️ Apoie o projeto
+
+O Ferramenta ERP é um projeto gratuito.
+
+Se ele ajudou você ou sua empresa, considere apoiar seu desenvolvimento.
+
+Em breve:
+
+- GitHub Sponsors
+- PIX
+- OpenCollective
+
+Mesmo que você não possa contribuir financeiramente, deixar uma ⭐ no repositório já ajuda bastante.
+
+---
+
+# 📄 Licença
+
+Este projeto é distribuído sob a licença **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+Isso significa que:
+
+✅ Você pode utilizar o Ferramenta ERP gratuitamente.
+
+✅ Pode modificar o código.
+
+✅ Pode estudar o funcionamento do projeto.
+
+✅ Pode contribuir com melhorias.
+
+✅ Empresas podem utilizar o sistema normalmente em seus negócios.
+
+✅ Melhorias distribuídas para terceiros devem permanecer sob a mesma licença.
+
+Nosso objetivo é garantir que o Ferramenta ERP permaneça livre, aberto e acessível para toda a comunidade.
+
+Leia a licença completa em:
+
+https://www.gnu.org/licenses/agpl-3.0.html
+
+---
+
+<div align="center">
+
+### Desenvolvido com ❤️ pela comunidade.
+
+**Se este projeto foi útil para você, considere deixar uma ⭐ no repositório.**
+
+</div>
