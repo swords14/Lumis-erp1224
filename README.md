@@ -13,52 +13,58 @@ Desktop • Offline • Multiempresa • Seguro • Rápido
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
 ![Tauri](https://img.shields.io/badge/Tauri-2.x-orange)
 
-⭐ Se este projeto for útil para você, deixe uma estrela no repositório.
+**⭐ Se este projeto for útil para você, deixe uma estrela no GitHub!**
+
+☕ **Ko-fi:** https://ko-fi.com/zed964288
+
+🐦 **X (Twitter):** https://x.com/swords14_
 
 </div>
 
 ---
 
-# ❤️ Nossa missão
+# ❤️ Nossa Missão
 
-O **Ferramenta ERP** nasceu com um objetivo simples:
+O **Ferramenta ERP** nasceu para tornar sistemas de gestão empresarial modernos acessíveis a qualquer empresa.
 
-> Tornar sistemas de gestão empresarial modernos acessíveis para qualquer empresa.
+Hoje milhares de pequenas e médias empresas dependem de softwares caros, antigos ou limitados para administrar seus negócios.
 
-Acreditamos que pequenas e médias empresas não deveriam depender de softwares caros ou ultrapassados para administrar seus negócios.
+Nossa missão é oferecer um ERP moderno, rápido, intuitivo e totalmente transparente para toda a comunidade.
 
-Por isso o Ferramenta ERP é desenvolvido como um projeto **Open Source**, gratuito para utilização e aberto à colaboração da comunidade.
+O projeto é desenvolvido de forma **Open Source**, permitindo que qualquer pessoa utilize, estude, contribua e ajude sua evolução.
 
 ---
 
-# ✨ Principais diferenciais
+# ✨ Principais Diferenciais
 
-- ✅ 100% Open Source
-- ✅ Gratuito para utilização
-- ✅ Desktop (Windows)
-- ✅ Funciona Offline
-- ✅ Multiempresa
-- ✅ Interface moderna
-- ✅ Alta performance (Tauri)
-- ✅ Controle Financeiro
-- ✅ Controle de Estoque
-- ✅ CRM
-- ✅ PDV
-- ✅ Auditoria
-- ✅ Sistema de Permissões (RBAC)
-- ✅ Backup
-- ✅ Internacionalização
-- ✅ Base de Conhecimento integrada
+- 🚀 Open Source
+- 💻 Aplicação Desktop (Tauri)
+- ⚡ Alta performance
+- 🌐 Funciona Offline
+- 🏢 Multiempresa
+- 👥 CRM
+- 🛒 PDV
+- 📦 Controle de Estoque
+- 💰 Financeiro
+- 📊 Dashboard
+- 📈 Relatórios
+- 🔐 Sistema de Permissões (RBAC)
+- 📝 Auditoria
+- 🌍 Internacionalização
+- 💾 Backup
+- 📚 Base de Conhecimento integrada
+- 🎨 Interface moderna
 
 ---
 
 # 📸 Screenshots
 
-> Em breve
+> Em breve.
 
 - Dashboard
-- PDV
+- Clientes
 - Financeiro
+- PDV
 - Estoque
 - Relatórios
 
@@ -110,7 +116,7 @@ Por isso o Ferramenta ERP é desenvolvido como um projeto **Open Source**, gratu
 ## 🛒 Vendas (PDV)
 
 - Carrinho multi-itens
-- Diversas formas de pagamento
+- Múltiplas formas de pagamento
 - Descontos
 - Aprovação
 - Cancelamento
@@ -120,9 +126,9 @@ Por isso o Ferramenta ERP é desenvolvido como um projeto **Open Source**, gratu
 
 ## 💰 Financeiro
 
-- Fluxo de Caixa
 - Contas a pagar
 - Contas a receber
+- Fluxo de caixa
 - Indicadores
 - Gráficos
 
@@ -132,10 +138,10 @@ Por isso o Ferramenta ERP é desenvolvido como um projeto **Open Source**, gratu
 
 - Exportação PDF
 - Exportação CSV
-- Relatórios financeiros
-- Estoque
-- Produtos
+- Relatórios Financeiros
+- Relatórios de Estoque
 - Clientes
+- Produtos
 
 ---
 
@@ -147,35 +153,35 @@ Por isso o Ferramenta ERP é desenvolvido como um projeto **Open Source**, gratu
 - RBAC
 - Auditoria
 - Row Level Security
-- Validação de dados
 - Proteção contra SQL Injection
+- Validação de dados
 
 ---
 
-## 🌎 Internacionalização
+## 🌍 Internacionalização
 
 - 🇧🇷 Português
 - 🇺🇸 English
 - 🇪🇸 Español
 
-Mais de 200 traduções em toda a aplicação.
+Mais de **200 traduções** distribuídas em toda a aplicação.
 
 ---
 
 # 🏗 Arquitetura
 
-```
-                 Ferramenta ERP
+```text
+                Ferramenta ERP
 
               Desktop (Tauri)
                      │
-        React 19 + TypeScript + Vite
+      React 19 + TypeScript + Vite
                      │
-                 NestJS API
+                NestJS API
                      │
-             Prisma ORM
+                Prisma ORM
                      │
-             PostgreSQL 16
+              PostgreSQL 16
 ```
 
 ---
@@ -185,51 +191,29 @@ Mais de 200 traduções em toda a aplicação.
 | Camada | Tecnologia |
 |----------|------------|
 | Desktop | Tauri 2 |
-| Frontend | React 19 |
+| Frontend | React 19 + TypeScript |
 | Backend | NestJS |
-| Banco | PostgreSQL 16 |
+| Banco de Dados | PostgreSQL 16 |
 | ORM | Prisma |
-| Estado | Zustand |
+| Estado Global | Zustand |
 | Server State | React Query |
 | CSS | Tailwind CSS |
-| Animações | Framer Motion |
 | Formulários | React Hook Form + Zod |
+| Animações | Framer Motion |
 | Gráficos | Recharts |
-| PDF | jsPDF |
+| PDF | jsPDF + AutoTable |
 | Testes | Vitest + Playwright |
-
----
-
-# 📂 Estrutura
-
-```
-apps/
-│
-├── desktop/
-├── frontend/
-└── backend/
-
-packages/
-│
-├── shared/
-├── database/
-├── ui/
-├── installer/
-└── assistant/
-
-docs/
-
-scripts/
-```
 
 ---
 
 # 🚀 Instalação
 
-## Clone
+## Clone o projeto
 
 ```bash
 git clone https://github.com/swords14/new.git
+
+cd new
 ```
 
 ## Instale as dependências
@@ -256,6 +240,30 @@ npm run start:dev
 
 ---
 
+# 📂 Estrutura do Projeto
+
+```text
+apps/
+│
+├── desktop/
+├── frontend/
+└── backend/
+
+packages/
+│
+├── shared/
+├── database/
+├── ui/
+├── installer/
+└── assistant/
+
+docs/
+
+scripts/
+```
+
+---
+
 # 🗺 Roadmap
 
 ## ✅ Implementado
@@ -268,10 +276,11 @@ npm run start:dev
 - Financeiro
 - Relatórios
 - PDV
+- Sistema de Permissões
 - Auditoria
-- RBAC
 - Internacionalização
 - Base de Conhecimento
+- Backup
 
 ---
 
@@ -280,10 +289,10 @@ npm run start:dev
 - Upload de imagens
 - Instalador Inteligente
 - Notificações em tempo real
-- PWA
-- Tour guiado
+- Aplicação PWA
+- Tour Guiado
 - Orçamentos
-- Metas e comissões
+- Metas e Comissões
 
 ---
 
@@ -293,80 +302,70 @@ npm run start:dev
 - White Label
 - Marketplace
 - API Pública
-- Serviços (OS)
+- Módulo de Serviços (OS)
 
 ---
 
-# 📖 Documentação
+# 🤝 Contribuindo
 
-A documentação completa encontra-se em:
+Contribuições são muito bem-vindas!
 
-```
-docs/
-```
+Você pode ajudar de várias formas:
 
-- Arquitetura
-- Roadmap
-- Instalador
-- API
-- Contribuição
+- 🐛 Reportando bugs
+- 💡 Sugerindo funcionalidades
+- 👨‍💻 Enviando Pull Requests
+- 📖 Melhorando a documentação
+- 🌍 Traduzindo o sistema
+- ⭐ Favoritando o projeto
 
----
-
-# 🤝 Como contribuir
-
-Contribuições são muito bem-vindas.
-
-Você pode contribuir de diversas formas:
-
-- Corrigindo bugs
-- Desenvolvendo novas funcionalidades
-- Melhorando a documentação
-- Traduzindo o sistema
-- Reportando problemas
-- Revisando Pull Requests
-
-Toda contribuição ajuda o projeto a evoluir.
+Toda contribuição ajuda o Ferramenta ERP a evoluir.
 
 ---
 
-# ❤️ Apoie o projeto
+# ❤️ Apoie o Projeto
 
-O Ferramenta ERP é um projeto gratuito.
+O Ferramenta ERP é desenvolvido de forma independente e permanecerá gratuito para toda a comunidade.
 
-Se ele ajudou você ou sua empresa, considere apoiar seu desenvolvimento.
+Se este projeto ajudou você ou sua empresa, considere apoiar o desenvolvimento.
 
-Em breve:
+### ☕ Ko-fi
 
-- GitHub Sponsors
-- PIX
-- OpenCollective
+https://ko-fi.com/zed964288
 
-Mesmo que você não possa contribuir financeiramente, deixar uma ⭐ no repositório já ajuda bastante.
+### 🐦 X (Twitter)
+
+https://x.com/swords14_
+
+Você também pode ajudar:
+
+- ⭐ Favoritando este repositório
+- 🐛 Reportando problemas
+- 💬 Compartilhando o projeto
+- 👨‍💻 Contribuindo com código
+
+Toda ajuda faz diferença.
 
 ---
 
-# 📄 Licença
+# 📜 Licença
 
 Este projeto é distribuído sob a licença **GNU Affero General Public License v3.0 (AGPL-3.0)**.
 
-Isso significa que:
+Você é livre para:
 
-✅ Você pode utilizar o Ferramenta ERP gratuitamente.
+- ✅ Utilizar o sistema gratuitamente.
+- ✅ Utilizar em empresas e organizações.
+- ✅ Estudar o código-fonte.
+- ✅ Modificar o projeto.
+- ✅ Compartilhar melhorias.
+- ✅ Contribuir com novas funcionalidades.
 
-✅ Pode modificar o código.
-
-✅ Pode estudar o funcionamento do projeto.
-
-✅ Pode contribuir com melhorias.
-
-✅ Empresas podem utilizar o sistema normalmente em seus negócios.
-
-✅ Melhorias distribuídas para terceiros devem permanecer sob a mesma licença.
+Caso você distribua uma versão modificada do Ferramenta ERP ou ofereça o sistema como um serviço, as modificações também deverão permanecer disponíveis sob a mesma licença AGPL-3.0.
 
 Nosso objetivo é garantir que o Ferramenta ERP permaneça livre, aberto e acessível para toda a comunidade.
 
-Leia a licença completa em:
+Leia a licença completa:
 
 https://www.gnu.org/licenses/agpl-3.0.html
 
@@ -374,8 +373,10 @@ https://www.gnu.org/licenses/agpl-3.0.html
 
 <div align="center">
 
-### Desenvolvido com ❤️ pela comunidade.
+## ❤️ Construindo um ERP Open Source para toda a comunidade.
 
-**Se este projeto foi útil para você, considere deixar uma ⭐ no repositório.**
+Se você acredita na ideia, deixe uma ⭐ no repositório e acompanhe a evolução do projeto.
+
+**Obrigado pelo apoio! 🚀**
 
 </div>
