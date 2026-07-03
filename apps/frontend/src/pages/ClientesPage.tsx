@@ -7,6 +7,7 @@ import {
   ChevronDown, ChevronRight, Building2, Briefcase, Sparkles
 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { clientesService, vendasService } from '@/lib/services';
 import { useI18nStore } from '@/stores/i18n.store';
 import toast from 'react-hot-toast';
@@ -31,6 +32,10 @@ export function ClientesPage() {
   const [search, setSearch] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+  const [confirmTitle, setConfirmTitle] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState('');
   const [form, setForm] = useState({ name: '', type: 'fisica' as 'fisica'|'juridica', document: '', email: '', phone: '', notes: '', cep: '', street: '', number: '', complement: '', neighborhood: '', city: '', state: 'SP', isCustomer: true, isSupplier: false });
 
   const loadData = async () => {
@@ -80,7 +85,15 @@ export function ClientesPage() {
     } catch { toast.error(t('errorSaving')); }
   };
 
-  const handleDelete = async (id: string) => { if (!confirm(t('confirmRemoveClients'))) return; try { await clientesService.delete(id); toast.success(t('clientRemoved')); loadData(); } catch { toast.error(t('errorSaving')); } };
+  const handleDelete = (id: string) => {
+    setConfirmTitle(t('remove'));
+    setConfirmMessage(t('confirmRemoveClients'));
+    setConfirmAction(() => async () => {
+      try { await clientesService.delete(id); toast.success(t('clientRemoved')); loadData(); } catch { toast.error(t('errorSaving')); }
+      finally { setConfirmOpen(false); }
+    });
+    setConfirmOpen(true);
+  };
 
   const handleEdit = (item: any) => {
     setEditing(item);
@@ -100,7 +113,15 @@ export function ClientesPage() {
     setModalOpen(true);
   };
 
-  const handleBulkDelete = async () => { if (!confirm(`${t('remove')} ${selectedIds.length} ${t('clients')}?`)) return; try { await Promise.all(selectedIds.map(id => clientesService.delete(id))); toast.success(`${selectedIds.length} ${t('removedClients')}`); setSelectedIds([]); loadData(); } catch { toast.error(t('errorSaving')); } };
+  const handleBulkDelete = () => {
+    setConfirmTitle(t('remove'));
+    setConfirmMessage(`${t('remove')} ${selectedIds.length} ${t('clients').toLowerCase()}?`);
+    setConfirmAction(() => async () => {
+      try { await Promise.all(selectedIds.map(id => clientesService.delete(id))); toast.success(`${selectedIds.length} ${t('removedClients')}`); setSelectedIds([]); loadData(); } catch { toast.error(t('errorSaving')); }
+      finally { setConfirmOpen(false); }
+    });
+    setConfirmOpen(true);
+  };
 
   const toggleSelect = (id: string) => setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 

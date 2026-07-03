@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, Sparkles, Command, Fingerprint, UserPlus } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth.store';
+import { useI18nStore } from '@/stores/i18n.store';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import type { LoginResponse } from '@ferramenta/shared';
@@ -14,20 +15,21 @@ export function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState<'email' | 'password' | null>(null);
   const { login } = useAuthStore();
+  const { t } = useI18nStore();
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) { toast.error('Preencha todos os campos.'); return; }
+    if (!email || !password) { toast.error(t('fillAllFields')); return; }
     setLoading(true);
     try {
       const { data } = await api.post<LoginResponse>('/auth/login', { email, password });
       login(data);
-      toast.success(`Bem-vindo(a), ${data.user.name.split(' ')[0]}! ✨`);
+      toast.success(`${t('welcomeBack')}, ${data.user.name.split(' ')[0]}! ✨`);
       navigate('/', { replace: true });
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Credenciais inválidas. Tente novamente.';
+      const message = error.response?.data?.message || t('invalidCredentials');
       toast.error(message);
     } finally {
       setLoading(false);
@@ -77,10 +79,10 @@ export function LoginPage() {
           <Command size={28} className="text-white" />
         </motion.div>
         <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent leading-tight">
-          Ferramenta ERP
+          {t('erpTitle')}
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 max-w-xs mx-auto leading-relaxed">
-          Gestão empresarial inteligente. Simples, elegante, poderosa.
+          {t('erpSubtitle')}
         </p>
       </motion.div>
 
@@ -101,9 +103,9 @@ export function LoginPage() {
             transition={{ delay: 0.4 }}
             className="mb-7"
           >
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Entrar</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('login')}</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Acesse seu painel de gestão
+              {t('loginDescription')}
             </p>
           </motion.div>
 
@@ -115,7 +117,7 @@ export function LoginPage() {
               transition={{ delay: 0.45 }}
             >
               <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider">
-                Email
+                {t('emailLabel')}
               </label>
               <div
                 className={`relative transition-all duration-300 ${
@@ -137,7 +139,7 @@ export function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
-                  placeholder="seu@email.com"
+                  placeholder={t('emailPlaceholder')}
                   className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-transparent hover:border-black/[0.06] dark:hover:border-white/[0.08] text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none transition-all duration-300"
                   autoComplete="email"
                 />
@@ -151,7 +153,7 @@ export function LoginPage() {
               transition={{ delay: 0.5 }}
             >
               <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider">
-                Senha
+                {t('passwordLabel')}
               </label>
               <div
                 className={`relative transition-all duration-300 ${
@@ -213,7 +215,7 @@ export function LoginPage() {
                   <Loader2 size={18} className="animate-spin" />
                 ) : (
                   <>
-                    <span>Entrar</span>
+                    <span>{t('login')}</span>
                     <motion.div
                       animate={{ x: [0, 4, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -234,12 +236,12 @@ export function LoginPage() {
             className="mt-7 flex items-center justify-between"
           >
             <button className="text-xs text-gray-400 hover:text-blue-500 transition-colors font-medium">
-              Esqueceu a senha?
+              {t('forgotPassword')}
             </button>
             <div className="flex items-center gap-1.5 text-xs text-gray-400">
               <UserPlus size={13} />
               <button className="text-blue-500 hover:text-blue-600 font-medium transition-colors">
-                Criar conta
+                {t('createAccount')}
               </button>
             </div>
           </motion.div>
@@ -253,10 +255,10 @@ export function LoginPage() {
         transition={{ delay: 0.8 }}
         className="text-center text-xs text-gray-400 mt-6"
       >
-        Ferramenta ERP v1.0.0 •{' '}
+        {t('erpTitle')} v1.0.0 •{' '}
         <span className="inline-flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          Online
+          {t('online')}
         </span>
       </motion.p>
     </motion.div>

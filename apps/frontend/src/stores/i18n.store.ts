@@ -166,6 +166,13 @@ const translations: Record<Language, Record<string, string>> = {
     serviceProvider: 'Serviços', workshop: 'Oficina', distributor: 'Distribuidora',
     hotel: 'Hotel', gym: 'Academia', market: 'Mercado',
     daily: 'Diário', weekly: 'Semanal',
+    // Login
+    erpTitle: 'Ferramenta ERP', erpSubtitle: 'Gestão empresarial inteligente. Simples, elegante, poderosa.',
+    login: 'Entrar', loginDescription: 'Acesse seu painel de gestão',
+    emailPlaceholder: 'seu@email.com', passwordLabel: 'Senha', emailLabel: 'Email',
+    fillAllFields: 'Preencha todos os campos.', invalidCredentials: 'Credenciais inválidas. Tente novamente.',
+    welcomeBack: 'Bem-vindo(a)', forgotPassword: 'Esqueceu a senha?', createAccount: 'Criar conta',
+    online: 'Online',
   },
   'en': {
     settings: 'Settings', general: 'General', company: 'Company', theme: 'Theme',
@@ -327,6 +334,13 @@ const translations: Record<Language, Record<string, string>> = {
     serviceProvider: 'Services', workshop: 'Workshop', distributor: 'Distributor',
     hotel: 'Hotel', gym: 'Gym', market: 'Market',
     daily: 'Daily', weekly: 'Weekly',
+    // Login
+    erpTitle: 'Ferramenta ERP', erpSubtitle: 'Smart business management. Simple, elegant, powerful.',
+    login: 'Sign In', loginDescription: 'Access your management dashboard',
+    emailPlaceholder: 'you@email.com', passwordLabel: 'Password', emailLabel: 'Email',
+    fillAllFields: 'Please fill in all fields.', invalidCredentials: 'Invalid credentials. Please try again.',
+    welcomeBack: 'Welcome', forgotPassword: 'Forgot password?', createAccount: 'Create account',
+    online: 'Online',
   },
   'es': {
     settings: 'Configuración', general: 'General', company: 'Empresa', theme: 'Tema',
@@ -488,6 +502,13 @@ const translations: Record<Language, Record<string, string>> = {
     serviceProvider: 'Servicios', workshop: 'Taller', distributor: 'Distribuidora',
     hotel: 'Hotel', gym: 'Gimnasio', market: 'Mercado',
     daily: 'Diario', weekly: 'Semanal',
+    // Login
+    erpTitle: 'Ferramenta ERP', erpSubtitle: 'Gestión empresarial inteligente. Simple, elegante, poderosa.',
+    login: 'Iniciar Sesión', loginDescription: 'Acceda a su panel de gestión',
+    emailPlaceholder: 'su@email.com', passwordLabel: 'Contraseña', emailLabel: 'Correo',
+    fillAllFields: 'Complete todos los campos.', invalidCredentials: 'Credenciales inválidas. Intente nuevamente.',
+    welcomeBack: 'Bienvenido(a)', forgotPassword: '¿Olvidó la contraseña?', createAccount: 'Crear cuenta',
+    online: 'En línea',
   },
 };
 
