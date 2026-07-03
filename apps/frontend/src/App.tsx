@@ -16,6 +16,7 @@ import { FornecedoresPage } from '@/pages/FornecedoresPage';
 import { ComprasPage } from '@/pages/ComprasPage';
 import { EstoquePage } from '@/pages/EstoquePage';
 import { UsuariosPage } from '@/pages/UsuariosPage';
+import { AuditoriaPage } from '@/pages/AuditoriaPage';
 import { FirstAccessWizard } from '@/components/onboarding/FirstAccessWizard';
 import { CommandPalette } from '@/components/assistant/CommandPalette';
 
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/compras" element={<ComprasPage />} />
           <Route path="/estoque" element={<EstoquePage />} />
           <Route path="/usuarios" element={<UsuariosPage />} />
+          <Route path="/auditoria" element={<AuditoriaPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

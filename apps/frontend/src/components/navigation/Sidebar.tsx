@@ -26,6 +26,7 @@ export function Sidebar() {
     { label: t('reports'), icon: BarChart3, path: '/relatorios' },
     { label: t('users'), icon: ShieldCheck, path: '/usuarios' },
     { label: t('settings2'), icon: Settings, path: '/configuracoes' },
+    { label: 'Auditoria', icon: ShieldCheck, path: '/auditoria' },
   ];
 
   return (
