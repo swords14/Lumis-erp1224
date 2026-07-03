@@ -36,7 +36,7 @@ export function Sidebar() {
         <AnimatePresence mode="wait">{!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25"><Command className="w-4 h-4 text-white" /></div>
-            <span className="font-semibold text-sm tracking-tight text-gray-900 dark:text-white">Ferramenta</span>
+<span className="font-semibold text-sm tracking-tight text-gray-900 dark:text-white">Lumis</span>
           </motion.div>)}</AnimatePresence>
         <button onClick={() => setCollapsed(!collapsed)} className="ml-auto p-1.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-gray-400"><ChevronRight size={16} style={{ transform: collapsed ? 'rotate(0deg)' : 'rotate(180deg)' }} /></button>
       </div>

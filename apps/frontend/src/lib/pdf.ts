@@ -17,7 +17,7 @@ export function generatePDF({ title, subtitle, companyName, columns, rows, total
   // Header
   doc.setFontSize(18);
   doc.setTextColor(40, 40, 40);
-  doc.text(companyName || 'Ferramenta ERP', 14, 20);
+  doc.text(companyName || 'Lumis ERP', 14, 20);
 
   doc.setFontSize(14);
   doc.setTextColor(60, 60, 60);

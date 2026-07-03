@@ -65,10 +65,10 @@ function buildKnowledgeBase(t: (key: string) => string): KnowledgeItem[] {
     // ─── PRIMEIROS PASSOS ───
     {
       id: 'welcome',
-      title: 'Bem-vindo ao Ferramenta ERP',
+      title: 'Bem-vindo ao Lumis ERP',
       category: 'getting-started',
       keywords: ['início', 'primeiro acesso', 'tour', 'conhecer'],
-      content: `O Ferramenta ERP é um sistema completo de gestão empresarial.
+      content: `O Lumis ERP é um sistema completo de gestão empresarial.
 
 🔹 **Visão Geral dos Módulos:**
 • **Dashboard** - Visão geral do seu negócio com métricas em tempo real

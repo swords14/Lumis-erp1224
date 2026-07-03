@@ -12,7 +12,7 @@ export function useAdvancedSearch<T extends Record<string, any>>(
 ) {
   const [filters, setFilters] = useState<T>(() => {
     try {
-      const saved = localStorage.getItem(`ferramenta-${storageKey}-filters`);
+    const saved = localStorage.getItem(`lumis-${storageKey}-filters`);
       return saved ? { ...defaultFilters, ...JSON.parse(saved) } : defaultFilters;
     } catch {
       return defaultFilters;
@@ -21,7 +21,7 @@ export function useAdvancedSearch<T extends Record<string, any>>(
 
   const [savedFilters, setSavedFilters] = useState<SavedFilter[]>(() => {
     try {
-      const saved = localStorage.getItem(`ferramenta-${storageKey}-saved`);
+    const saved = localStorage.getItem(`lumis-${storageKey}-saved`);
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -31,7 +31,7 @@ export function useAdvancedSearch<T extends Record<string, any>>(
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    localStorage.setItem(`ferramenta-${storageKey}-filters`, JSON.stringify(filters));
+    localStorage.setItem(`lumis-${storageKey}-filters`, JSON.stringify(filters));
   }, [filters, storageKey]);
 
   const updateFilter = useCallback((key: string, value: any) => {
@@ -51,7 +51,7 @@ export function useAdvancedSearch<T extends Record<string, any>>(
     };
     const updated = [...savedFilters, newSaved].slice(-10); // max 10
     setSavedFilters(updated);
-    localStorage.setItem(`ferramenta-${storageKey}-saved`, JSON.stringify(updated));
+    localStorage.setItem(`lumis-${storageKey}-saved`, JSON.stringify(updated));
   }, [filters, query, savedFilters, storageKey]);
 
   const loadSavedFilter = useCallback((id: string) => {

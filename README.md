@@ -1,4 +1,4 @@
-# 🚀 Ferramenta ERP
+# 🚀 Lumis ERP
 
 <div align="center">
 

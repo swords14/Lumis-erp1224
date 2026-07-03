@@ -37,7 +37,7 @@ ERP comercial para pequenas e médias empresas, sem funcionalidades fiscais, com
 ## Estrutura Monorepo
 
 ```
-ferramenta-erp/
+lumis-erp/
 ├── apps/
 │   ├── desktop/          # Tauri desktop app (shell)
 │   ├── frontend/         # React SPA (shared desktop/web)

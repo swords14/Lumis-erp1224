@@ -46,7 +46,7 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (loading) => set({ isLoading: loading }),
     }),
     {
-      name: 'ferramenta-auth',
+      name: 'lumis-auth',
       partialize: (state) => ({
         user: state.user,
         tokens: state.tokens,

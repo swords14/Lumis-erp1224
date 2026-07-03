@@ -24,7 +24,7 @@ const businessTypes = [
 ];
 
 const steps = [
-  { id: 'welcome', title: 'Bem-vindo ao Ferramenta ERP', subtitle: 'Vamos configurar seu sistema em 3 passos rápidos.' },
+  { id: 'welcome', title: 'Bem-vindo ao Lumis ERP', subtitle: 'Vamos configurar seu sistema em 3 passos rápidos.' },
   { id: 'business', title: 'Qual seu tipo de empresa?', subtitle: 'Adaptamos o ERP automaticamente ao seu segmento.' },
   { id: 'modules', title: 'Módulos Disponíveis', subtitle: 'Estes são os módulos configurados para você.' },
   { id: 'ready', title: 'Tudo Pronto!', subtitle: 'Seu ERP está configurado e pronto para usar.' },

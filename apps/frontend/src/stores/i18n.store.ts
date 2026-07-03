@@ -152,7 +152,7 @@ const translations: Record<Language, Record<string, string>> = {
     select: 'Selecione...', store: 'Loja', clinic: 'Clínica', restaurant: 'Restaurante',
     serviceProvider: 'Serviços', workshop: 'Oficina', distributor: 'Distribuidora',
     hotel: 'Hotel', gym: 'Academia', market: 'Mercado', daily: 'Diário', weekly: 'Semanal',
-    erpTitle: 'Ferramenta ERP', erpSubtitle: 'Gestão empresarial inteligente. Simples, elegante, poderosa.',
+    erpTitle: 'Lumis ERP', erpSubtitle: 'Gestão empresarial inteligente. Simples, elegante, poderosa.',
     login: 'Entrar', loginDescription: 'Acesse seu painel de gestão',
     emailPlaceholder: 'seu@email.com', passwordLabel: 'Senha', emailLabel: 'Email',
     fillAllFields: 'Preencha todos os campos.', invalidCredentials: 'Credenciais inválidas. Tente novamente.',
@@ -315,7 +315,7 @@ const translations: Record<Language, Record<string, string>> = {
     select: 'Select...', store: 'Store', clinic: 'Clinic', restaurant: 'Restaurant',
     serviceProvider: 'Services', workshop: 'Workshop', distributor: 'Distributor',
     hotel: 'Hotel', gym: 'Gym', market: 'Market', daily: 'Daily', weekly: 'Weekly',
-    erpTitle: 'Ferramenta ERP', erpSubtitle: 'Smart business management. Simple, elegant, powerful.',
+    erpTitle: 'Lumis ERP', erpSubtitle: 'Smart business management. Simple, elegant, powerful.',
     login: 'Sign In', loginDescription: 'Access your management dashboard',
     emailPlaceholder: 'you@email.com', passwordLabel: 'Password', emailLabel: 'Email',
     fillAllFields: 'Please fill in all fields.', invalidCredentials: 'Invalid credentials. Please try again.',
@@ -478,7 +478,7 @@ const translations: Record<Language, Record<string, string>> = {
     select: 'Seleccione...', store: 'Tienda', clinic: 'Clínica', restaurant: 'Restaurante',
     serviceProvider: 'Servicios', workshop: 'Taller', distributor: 'Distribuidora',
     hotel: 'Hotel', gym: 'Gimnasio', market: 'Mercado', daily: 'Diario', weekly: 'Semanal',
-    erpTitle: 'Ferramenta ERP', erpSubtitle: 'Gestión empresarial inteligente. Simple, elegante, poderosa.',
+    erpTitle: 'Lumis ERP', erpSubtitle: 'Gestión empresarial inteligente. Simple, elegante, poderosa.',
     login: 'Iniciar Sesión', loginDescription: 'Acceda a su panel de gestión',
     emailPlaceholder: 'su@email.com', passwordLabel: 'Contraseña', emailLabel: 'Correo',
     fillAllFields: 'Complete todos los campos.', invalidCredentials: 'Credenciales inválidas. Intente nuevamente.',
@@ -504,6 +504,6 @@ export const useI18nStore = create<I18nState>()(
       t: (key: string) => translations[get().language]?.[key] || key,
       setLanguage: (lang: Language) => set({ language: lang }),
     }),
-    { name: 'ferramenta-i18n' }
+    { name: 'lumis-i18n' }
   )
 );

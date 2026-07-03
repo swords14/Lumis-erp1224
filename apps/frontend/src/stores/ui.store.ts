@@ -58,6 +58,6 @@ export const useUIStore = create<UIState>()(
 
       closeWizard: () => set({ showWizard: false }),
     }),
-    { name: 'ferramenta-ui' }
+    { name: 'lumis-ui' }
   )
 );

@@ -26,7 +26,7 @@ export function AuthLayout() {
                 <Package className="w-6 h-6" />
               </div>
               <span className="text-2xl font-semibold tracking-tight">
-                Ferramenta
+                Lumis
               </span>
             </div>
             <h1 className="text-4xl font-bold leading-tight mb-4">
