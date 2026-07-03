@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Truck, Plus, Search, LayoutGrid, List, Mail, Phone, MapPin, Edit3, Trash2, ChevronRight, CheckCircle, X, SlidersHorizontal, Building2, Star, Package } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { clientesService } from '@/lib/services';
 import { useI18nStore } from '@/stores/i18n.store';
 import toast from 'react-hot-toast';
@@ -15,6 +16,10 @@ export function FornecedoresPage() {
   const [editing, setEditing] = useState<any>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('cards');
   const [search, setSearch] = useState('');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+  const [confirmTitle, setConfirmTitle] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState('');
   const [form, setForm] = useState({ name: '', type: 'juridica' as 'fisica'|'juridica', document: '', email: '', phone: '', notes: '', isSupplier: true, isCustomer: false });
 
   const loadData = async () => { setLoading(true); try { const r = await clientesService.list({ isSupplier: 'true' }); setData(r.data || []); } catch { toast.error(t('errorLoading')); } finally { setLoading(false); } };
@@ -31,7 +36,15 @@ export function FornecedoresPage() {
     } catch { toast.error(t('errorSaving')); }
   };
 
-  const handleDelete = async (id: string) => { if (!confirm(t('confirmRemoveSuppliers'))) return; try { await clientesService.delete(id); toast.success(t('supplierRemoved')); loadData(); } catch { toast.error(t('errorSaving')); } };
+  const handleDelete = (id: string) => {
+    setConfirmTitle(t('remove'));
+    setConfirmMessage(t('confirmRemoveSuppliers'));
+    setConfirmAction(() => async () => {
+      try { await clientesService.delete(id); toast.success(t('supplierRemoved')); loadData(); } catch { toast.error(t('errorSaving')); }
+      finally { setConfirmOpen(false); }
+    });
+    setConfirmOpen(true);
+  };
 
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
@@ -63,6 +76,7 @@ export function FornecedoresPage() {
         <div className="grid grid-cols-2 gap-2"><div><label className="text-xs font-semibold text-gray-500 uppercase mb-1.5 block">{t('email')}</label><input value={form.email} onChange={e=>setForm({...form,email:e.target.value})} className="glass-input"/></div><div><label className="text-xs font-semibold text-gray-500 uppercase mb-1.5 block">{t('phone')}</label><input value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className="glass-input"/></div></div>
         <div><label className="text-xs font-semibold text-gray-500 uppercase mb-1.5 block">{t('observations')}</label><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} rows={2} className="glass-input"/></div>
         <button onClick={handleSave} className="btn-primary w-full justify-center text-sm py-3">{editing?t('saveChanges'):t('registerSupplier')}</button></div></Modal>
+      <ConfirmModal open={confirmOpen} onClose={() => setConfirmOpen(false)} onConfirm={confirmAction} title={confirmTitle} message={confirmMessage} confirmLabel={t('remove')} cancelLabel={t('cancel')} />
     </motion.div>
   );
 }

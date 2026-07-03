@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Package, Plus, Search, LayoutGrid, List, AlertTriangle, Edit3, Trash2, ShoppingCart, DollarSign, Tag, Filter, SlidersHorizontal, X, ChevronRight, CheckCircle, BarChart3, TrendingUp, TrendingDown, Box, Barcode, Layers, Sparkles, Star, Download, Upload, ArrowUpDown } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { produtosService } from '@/lib/services';
 import { useI18nStore } from '@/stores/i18n.store';
 import toast from 'react-hot-toast';
@@ -20,6 +21,10 @@ export function ProdutosPage() {
   const [stockFilter, setStockFilter] = useState<StockFilter>('todos');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'name'|'price'|'stock'>('name');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+  const [confirmTitle, setConfirmTitle] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState('');
   const [form, setForm] = useState({ code:'', name:'', description:'', unitOfMeasure:'un', categoryId:'', brand:'', costPrice:0, sellingPrice:0, currentStock:0, minStock:10, isService:false, image:'' });
 
   const loadData = async () => { setLoading(true); try { const res = await produtosService.list(); setData(res.data||[]); } catch { toast.error(t('errorLoading')); } finally { setLoading(false); } };
@@ -55,14 +60,24 @@ export function ProdutosPage() {
     }catch{toast.error(t('errorSaving'));}
   };
 
-  const handleDelete=async(id:string)=>{
-    if(!confirm(t('confirmRemoveProducts')))return;
-    try{await produtosService.delete(id);toast.success(t('productRemoved'));loadData();}catch{toast.error(t('errorSaving'));}
+  const handleDelete=(id:string)=>{
+    setConfirmTitle(t('remove'));
+    setConfirmMessage(t('confirmRemoveProducts'));
+    setConfirmAction(() => async () => {
+      try{await produtosService.delete(id);toast.success(t('productRemoved'));loadData();}catch{toast.error(t('errorSaving'));}
+      finally { setConfirmOpen(false); }
+    });
+    setConfirmOpen(true);
   };
 
-  const handleBulkDelete=async()=>{
-    if(!confirm(`${t('remove')} ${selectedIds.length} ${t('products')}?`))return;
-    try{await Promise.all(selectedIds.map(id=>produtosService.delete(id)));toast.success(`${selectedIds.length} ${t('removedProducts')}`);setSelectedIds([]);loadData();}catch{toast.error(t('errorSaving'));}
+  const handleBulkDelete=()=>{
+    setConfirmTitle(t('remove'));
+    setConfirmMessage(`${t('remove')} ${selectedIds.length} ${t('products')}?`);
+    setConfirmAction(() => async () => {
+      try{await Promise.all(selectedIds.map(id=>produtosService.delete(id)));toast.success(`${selectedIds.length} ${t('removedProducts')}`);setSelectedIds([]);loadData();}catch{toast.error(t('errorSaving'));}
+      finally { setConfirmOpen(false); }
+    });
+    setConfirmOpen(true);
   };
 
   const handleEdit=(item:any)=>{
@@ -238,6 +253,7 @@ export function ProdutosPage() {
           <button onClick={handleSave} className="btn-primary w-full justify-center text-sm py-3 mt-2">{editing?t('saveChanges'):t('registerProduct')}</button>
         </div>
       </Modal>
+      <ConfirmModal open={confirmOpen} onClose={() => setConfirmOpen(false)} onConfirm={confirmAction} title={confirmTitle} message={confirmMessage} confirmLabel={t('remove')} cancelLabel={t('cancel')} />
     </motion.div>
   );
 }
