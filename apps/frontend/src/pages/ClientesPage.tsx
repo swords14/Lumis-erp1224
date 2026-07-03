@@ -198,7 +198,7 @@ export function ClientesPage() {
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${filterStatus === f.value ? 'bg-white dark:bg-white/15 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 hover:text-gray-700'}`}>{f.label}</button>
             ))}
           </div>
-          <select value={filterType} onChange={e => setFilterType(e.target.value as FilterType)}
+            <select value={filterType} onChange={e => { const v = e.target.value; if (v === 'todos' || v === 'fisica' || v === 'juridica') setFilterType(v); }}
             className="text-xs px-3 py-2 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-white/10 text-gray-600 dark:text-gray-400 focus:outline-none">
             <option value="todos">{t('allTypes')}</option><option value="fisica">{t('physicalPerson')}</option><option value="juridica">{t('legalPerson')}</option>
           </select>
