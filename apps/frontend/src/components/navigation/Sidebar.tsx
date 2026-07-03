@@ -43,10 +43,10 @@ export function Sidebar() {
         <button onClick={openCommandPalette} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-400 bg-black/[0.03] dark:bg-white/[0.03] rounded-xl hover:bg-black/[0.06] border border-white/10 cursor-pointer"><Search size={14} /><span>{t('search')}</span><kbd className="ml-auto text-[10px] px-1.5 py-0.5 rounded-md bg-black/[0.06] dark:bg-white/[0.06] text-gray-400 font-mono">⌘K</kbd></button>
       </div>)}
       <nav className="flex-1 overflow-y-auto px-2.5 py-3 space-y-0.5">
-        <p className={`text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-3 mb-2 ${collapsed ? 'text-center' : ''}`}>{collapsed ? '···' : 'Principal'}</p>
+        <p className={`text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-3 mb-2 ${collapsed ? 'text-center' : ''}`}>{collapsed ? '···' : t('main')}</p>
         <MenuSection items={mainMenu} collapsed={collapsed} />
         <div className="my-4 mx-2 border-t border-white/10" />
-        <p className={`text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-3 mb-2 ${collapsed ? 'text-center' : ''}`}>{collapsed ? '···' : 'Sistema'}</p>
+        <p className={`text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 px-3 mb-2 ${collapsed ? 'text-center' : ''}`}>{collapsed ? '···' : t('system')}</p>
         <MenuSection items={secondaryMenu} collapsed={collapsed} />
       </nav>
       <div className="p-3 border-t border-white/10">

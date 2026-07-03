@@ -33,7 +33,7 @@ export function Header() {
         <button
           onClick={toggleTheme}
           className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-gray-400 transition-colors"
-          title={isDark ? 'Modo claro' : 'Modo escuro'}
+          title={isDark ? t('lightMode') : t('darkMode')}
         >
           {isDark ? <Sun size={17} /> : <Moon size={17} />}
         </button>
@@ -62,7 +62,7 @@ export function Header() {
                 className="absolute right-0 mt-2 w-80 rounded-2xl border border-white/20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl shadow-2xl z-50 overflow-hidden"
               >
                 <div className="flex items-center justify-between p-4 border-b border-white/10">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Notificações</h3>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t('notifications')}</h3>
                   <button onClick={() => setNotifOpen(false)} className="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-gray-400">
                     <X size={14} />
                   </button>
