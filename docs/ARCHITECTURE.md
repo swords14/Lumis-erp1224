@@ -20,7 +20,19 @@ ERP comercial para pequenas e médias empresas, sem funcionalidades fiscais, com
 | Animação | **Framer Motion** | Micro-animações, gestos |
 | Ícones | **Lucide React** | Consistentes, customizáveis |
 | Forms | **React Hook Form + Zod** | Validação, performance |
+| Gráficos | **Recharts** | Charts responsivos e interativos |
+| PDF | **jsPDF + autotable** | Relatórios PDF profissionais |
 | Testes | **Vitest + Playwright** | Unitários + E2E |
+| Internacionalização | **Zustand (custom)** | 3 idiomas, 200+ chaves |
+| Máscaras | **Custom lib** | CPF, CNPJ, telefone, CEP, moeda |
+
+## Estado Atual da Implementação
+
+✅ **Módulos Completos:** Dashboard, Clientes, Fornecedores, Produtos, Vendas (PDV), Compras, Financeiro, Estoque, Relatórios, Usuários, Configurações, Auditoria
+
+✅ **Funcionalidades Empresariais:** RBAC (4 níveis), Logs de Auditoria, PDV com carrinho multi-itens, Múltiplos pagamentos, Internacionalização (pt-BR/en/es), Base de Conhecimento (16 artigos), Exportação CSV e PDF
+
+✅ **UX Profissional:** Glassmorphism, Skeleton loaders, ConfirmModal animado, Paginação, Máscaras de input, Busca avançada com filtros persistentes
 
 ## Estrutura Monorepo
 
@@ -41,46 +53,115 @@ ferramenta-erp/
 └── turbo.json            # Turborepo config
 ```
 
-## Princípios Arquiteturais
+## Módulos Implementados
 
-### 1. Clean Architecture (Camadas)
-```
-Presentation (UI) → Application (Use Cases) → Domain (Entities) → Infrastructure (DB, Services)
-```
-
-### 2. DDD Tático
-- **Entities**: Cliente, Produto, Venda, Empresa, Usuário
-- **Value Objects**: CNPJ, Email, Money, Address
-- **Aggregates**: Venda (root) + ItensVenda
-- **Domain Events**: VendaRealizada, EstoqueBaixo
-- **Repositories**: Interfaces na camada de domínio
-- **Domain Services**: Regras de negócio complexas
-
-### 3. Modular Architecture
-Cada módulo de negócio é independente:
+### Backend (NestJS)
 ```
 modules/
-├── core/           # Empresa, Usuário, Permissões
-├── cadastros/      # Clientes, Fornecedores, Produtos
-├── financeiro/     # Contas, Movimentações, Fluxo
-├── estoque/        # Inventário, Movimentações
-├── vendas/         # PDV, Orçamentos, Pedidos
-├── compras/        # Ordens de Compra, Cotações
-├── business-types/ # Segmentos: restaurante, clínica, loja...
-└── reports/        # Relatórios dinâmicos
+├── auth/           # Autenticação (JWT + Refresh tokens)
+├── tenant/         # Multi-empresa (Row-Level Security)
+├── user/           # Usuários e perfis
+├── person/         # Clientes e Fornecedores (com auditoria)
+├── product/        # Produtos e catálogo (com auditoria)
+├── sale/           # Vendas, PDV e ordens (com auditoria)
+├── stock/          # Movimentações de estoque
+├── financial/      # Contas a pagar/receber, fluxo de caixa
+├── dashboard/      # Métricas e estatísticas em tempo real
+├── backup/         # Backup e restore do banco
+├── audit/          # Logs de auditoria (tabela auto-gerada)
+├── assistant/      # Base de conhecimento
+└── events/         # Eventos e notificações (WebSocket)
 ```
 
-### 4. Multiempresa (Row-Level Security)
-- PostgreSQL RLS aplicado por `tenant_id`
-- Cada query automaticamente filtrada
-- Middleware NestJS injeta `tenantId` no request context
-- Prisma Client extension para filtro automático
+### Frontend (React)
+```
+pages/
+├── auth/LoginPage.tsx         # Login com i18n e validação
+├── DashboardPage.tsx          # Dashboard com dados reais + skeleton
+├── ClientesPage.tsx           # CRM com ConfirmModal
+├── FornecedoresPage.tsx       # Gestão de fornecedores
+├── ProdutosPage.tsx           # Catálogo + alertas de estoque
+├── VendasPage.tsx             # PDV funcional multi-itens
+├── ComprasPage.tsx            # Ordens de compra
+├── FinanceiroPage.tsx         # Fluxo de caixa + gráficos
+├── EstoquePage.tsx            # Movimentações
+├── RelatoriosPage.tsx         # Relatórios com exportação
+├── UsuariosPage.tsx           # Gestão de usuários
+├── ConfiguracoesPage.tsx      # Temas, idioma, empresa, backup
+└── AuditoriaPage.tsx          # Logs de auditoria com paginação
 
-### 5. Multi-negócio (Business Types)
-- Sistema de plugins por segmento
-- Cada segmento define: módulos, menus, dashboards, fluxos
-- Carregamento dinâmico de componentes
-- Registry pattern para extensibilidade
+components/
+├── ui/
+│   ├── Modal.tsx              # Modal genérico
+│   ├── ConfirmModal.tsx       # Modal de confirmação animado
+│   ├── DataTable.tsx          # Tabela de dados
+│   ├── Pagination.tsx         # Paginação reutilizável
+│   └── ValidatedField.tsx     # Campo com validação visual
+├── navigation/
+│   ├── Sidebar.tsx            # Menu lateral com i18n
+│   └── Header.tsx             # Header com notificações
+├── assistant/
+│   └── CommandPalette.tsx     # Ctrl+K: busca + base de conhecimento
+└── onboarding/
+    └── FirstAccessWizard.tsx  # Wizard de primeiro acesso
+
+stores/
+├── auth.store.ts              # Autenticação
+├── ui.store.ts                # Tema e UI state
+├── i18n.store.ts              # Internacionalização (200+ chaves)
+├── notification.store.ts      # Notificações
+└── permissions.store.ts       # Hook usePermissions para RBAC
+
+hooks/
+└── useAdvancedSearch.ts       # Busca avançada com filtros persistentes
+
+lib/
+├── masks.ts                   # Máscaras: CPF, CNPJ, telefone, CEP, moeda
+├── pdf.ts                     # Geração de PDF (jsPDF + autotable)
+├── api.ts                     # Cliente HTTP
+└── services.ts                # Serviços CRUD genéricos
+```
+
+## Sistema de Permissões (RBAC)
+
+| Nível | Permissões |
+|-------|-----------|
+| **Admin** | Acesso total (todos os módulos e ações) |
+| **Gerente** | Vendas, Clientes, Produtos, Financeiro, Estoque, Relatórios, Configurações |
+| **Operador** | Vendas, Clientes (limitado), Produtos (leitura), Financeiro (leitura) |
+| **Leitura** | Apenas visualização de todos os módulos |
+
+Permissões granulares por módulo: `view`, `create`, `edit`, `delete`, `approve`, `cancel`, `manage`
+
+## Sistema de Auditoria
+
+- Tabela `audit_logs` auto-gerada na inicialização
+- Registro automático de: CREATE, UPDATE, DELETE
+- Resources auditados: `sale`, `person`, `product`
+- Endpoint: `GET /api/v1/audit/logs?page=1&limit=20`
+- Tela dedicada: `/auditoria` (acesso na Sidebar)
+- Informações: ação, recurso, ID, usuário, data/hora, detalhes (JSONB)
+
+## Internacionalização (i18n)
+
+- 3 idiomas: 🇧🇷 Português (Brasil), 🇺🇸 English, 🇪🇸 Español
+- 200+ chaves de tradução cobrindo todo o sistema
+- Tela de Login, Sidebar, Header, todas as páginas de módulos
+- Base de conhecimento traduzida
+- Persistência em localStorage
+
+## Base de Conhecimento (Ctrl+K)
+
+- 16 artigos de ajuda em 9 categorias:
+  - Primeiros Passos (3): Boas-vindas, Setup inicial, Atalhos
+  - Vendas (3): PDV, Status de vendas, Métricas
+  - Clientes (1): Gestão CRM
+  - Produtos (1): Catálogo e precificação
+  - Financeiro (2): Fluxo de caixa, Contas a pagar/receber
+  - Estoque (1): Movimentações
+  - Relatórios (1): Guia completo
+  - Configurações (1): Personalização do sistema
+  - Dicas (3): Dashboard, Filtros, Segurança
 
 ## Design System
 
@@ -99,44 +180,14 @@ modules/
 - Card, Stats, Chart
 - Sidebar, Header, Breadcrumb
 - Wizard, Tour, Tooltip
-
-## Instalador Inteligente
-
-### Servidor
-1. Detecta/Cria PostgreSQL
-2. Cria banco + schema
-3. Executa migrations
-4. Cria admin user
-5. Configura firewall (Windows)
-6. Inicia NestJS server
-7. Exibe: IP, Usuário, Status
-
-### Estação
-1. Solicita IP do servidor
-2. Valida conexão API
-3. Baixa configurações
-4. Conecta automaticamente
-
-## Database Schema (Core)
-
-### Tenant (Empresa)
-- id, nome, cnpj, business_type, config (JSONB), created_at
-
-### User
-- id, tenant_id, nome, email, senha_hash, avatar, role, preferences (JSONB)
-
-### Role & Permissions
-- RBAC com permissões granulares por módulo/ação/tenant
-
-### Module Registry
-- Registro dinâmico de módulos por business type
+- Pagination, ConfirmModal, ValidatedField
 
 ## API Design
 
 ### REST + WebSocket
 - REST para CRUD
 - WebSocket para notificações real-time
-- Paginação cursor-based
+- Paginação baseada em página + limite
 - Filtros como query params
 - Versionamento: /api/v1/
 
@@ -154,63 +205,58 @@ modules/
 
 - Argon2 para senhas
 - JWT + Refresh tokens
-- Rate limiting
+- Rate limiting (120 req/min)
 - CORS configurado
 - Helmet headers
 - Input validation (Zod)
 - SQL injection prevention (Prisma)
-- Audit log em tabelas críticas
-
-## Performance
-
-- Virtual scrolling para listas grandes
-- Paginação server-side
-- React Query cache + stale-while-revalidate
-- Code splitting por módulo
-- Lazy loading de módulos de negócio
-- Índices PostgreSQL otimizados
-- Connection pooling
-
-## Atualizações
-
-- Tauri updater para desktop
-- Migrations Prisma versionadas
-- Rollback automático em falha
-- Backup pré-update
+- Audit log em todas as operações críticas
+- RBAC com 4 níveis de acesso
+- Row-Level Security para multiempresa
 
 ## Roadmap de Implementação
 
-### Fase 1 - Fundação (MVP Core)
-- [ ] Monorepo setup
-- [ ] Database schema core
-- [ ] NestJS server base
-- [ ] Auth + Multiempresa
-- [ ] Design system base
-- [ ] Frontend shell (sidebar, header, routing)
-- [ ] Tauri desktop wrapper
-- [ ] CRUD: Empresas, Usuários, Perfis
+### ✅ Fase 1 - Fundação (MVP Core) - CONCLUÍDO
+- [x] Monorepo setup
+- [x] Database schema core
+- [x] NestJS server base
+- [x] Auth + Multiempresa
+- [x] Design system base
+- [x] Frontend shell (sidebar, header, routing)
+- [x] Tauri desktop wrapper
+- [x] CRUD: Empresas, Usuários, Perfis
 
-### Fase 2 - Core Business
-- [ ] Cadastros (Clientes, Fornecedores, Produtos)
-- [ ] Financeiro básico
-- [ ] Estoque básico
-- [ ] Dashboard genérico
-- [ ] Sistema de permissões
+### ✅ Fase 2 - Core Business - CONCLUÍDO
+- [x] Cadastros (Clientes, Fornecedores, Produtos)
+- [x] Financeiro básico
+- [x] Estoque básico
+- [x] Dashboard com dados reais
+- [x] Sistema de permissões
+- [x] PDV funcional multi-itens
 
-### Fase 3 - Business Types
-- [ ] Sistema de plugins
-- [ ] Loja (segmento inicial)
-- [ ] Assistente + Tour guiado
-- [ ] Instalador inteligente
+### ✅ Fase 3 - Enterprise - CONCLUÍDO
+- [x] Logs de auditoria
+- [x] Base de conhecimento
+- [x] Internacionalização (3 idiomas)
+- [x] ConfirmModal customizado
+- [x] Paginação
+- [x] Relatórios com exportação CSV e PDF
+- [x] Máscaras de input
+- [x] Busca avançada
 
-### Fase 4 - Expansão
-- [ ] Mais segmentos
-- [ ] Relatórios avançados
-- [ ] Backup & Recovery
-- [ ] Atualizações automáticas
+### 🔄 Fase 4 - Premium (Em Progresso)
+- [ ] WebSocket notificações real-time
+- [ ] Mobile-first responsivo
+- [ ] Upload de imagens (produtos + logo)
+- [ ] App mobile PWA
+- [ ] Instalador inteligente (Tauri)
+- [ ] Tour guiado interativo
+- [ ] Orçamentos → Vendas
+- [ ] Metas e comissões
 
-### Fase 5 - Premium
-- [ ] IA integration
-- [ ] Analytics
+### 📋 Fase 5 - Enterprise+
+- [ ] Módulo de Serviços (OS)
+- [ ] Multi-filiais
 - [ ] White-label
+- [ ] API Pública (Swagger)
 - [ ] Marketplace de módulos
