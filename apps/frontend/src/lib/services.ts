@@ -1,4 +1,3 @@
-// ──── API Services ────
 import api from './api';
 import type { PaginatedResponse } from '@ferramenta/shared';
 

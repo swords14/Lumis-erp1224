@@ -1,5 +1,5 @@
 {
-  "name": "@ferramenta/desktop",
+  "name": "@lumis/desktop",
   "version": "1.0.0",
   "private": true,
   "description": "Desktop App - Ferramenta ERP (Tauri)",

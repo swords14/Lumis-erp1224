@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@ferramenta/shared": ["../../packages/shared/src"]
+      "@lumis/shared": ["../../packages/shared/src"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
