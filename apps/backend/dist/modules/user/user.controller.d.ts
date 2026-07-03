@@ -2,6 +2,15 @@ import { UserService } from './user.service';
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
+    findAll(req: any): Promise<{
+        name: string;
+        role: string;
+        email: string;
+        status: string;
+        avatar: string | null;
+        id: string;
+        lastLoginAt: Date | null;
+    }[]>;
     me(req: any): Promise<({
         userProgress: {
             tenantId: string;

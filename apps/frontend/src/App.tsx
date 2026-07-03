@@ -12,7 +12,12 @@ import { VendasPage } from '@/pages/VendasPage';
 import { FinanceiroPage } from '@/pages/FinanceiroPage';
 import { ConfiguracoesPage } from '@/pages/ConfiguracoesPage';
 import { RelatoriosPage } from '@/pages/RelatoriosPage';
+import { FornecedoresPage } from '@/pages/FornecedoresPage';
+import { ComprasPage } from '@/pages/ComprasPage';
+import { EstoquePage } from '@/pages/EstoquePage';
+import { UsuariosPage } from '@/pages/UsuariosPage';
 import { FirstAccessWizard } from '@/components/onboarding/FirstAccessWizard';
+import { CommandPalette } from '@/components/assistant/CommandPalette';
 
 export default function App() {
   const { isAuthenticated } = useAuthStore();
@@ -30,6 +35,9 @@ export default function App() {
 
   return (
     <>
+      {/* Command Palette (Ctrl+K) */}
+      <CommandPalette />
+
       {/* First Access Wizard */}
       {isAuthenticated && showWizard && <FirstAccessWizard />}
 
@@ -48,8 +56,12 @@ export default function App() {
             <Route path="/produtos" element={<ProdutosPage />} />
             <Route path="/vendas" element={<VendasPage />} />
             <Route path="/financeiro" element={<FinanceiroPage />} />
-            <Route path="/relatorios" element={<RelatoriosPage />} />
-            <Route path="/configuracoes" element={<ConfiguracoesPage />} />
+          <Route path="/relatorios" element={<RelatoriosPage />} />
+          <Route path="/configuracoes" element={<ConfiguracoesPage />} />
+          <Route path="/fornecedores" element={<FornecedoresPage />} />
+          <Route path="/compras" element={<ComprasPage />} />
+          <Route path="/estoque" element={<EstoquePage />} />
+          <Route path="/usuarios" element={<UsuariosPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

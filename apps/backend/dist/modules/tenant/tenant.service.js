@@ -113,6 +113,31 @@ let TenantService = class TenantService {
         });
         return tenant;
     }
+    async update(tenantId, data) {
+        // Extrai contacts e address para criar/atualizar separadamente
+        const { contacts, address, ...tenantData } = data;
+        const updateData = { ...tenantData };
+        if (address) {
+            // Upsert do endereço
+            updateData.address = {
+                upsert: {
+                    create: { ...address, country: address.country || 'Brasil', type: 'comercial', isDefault: true },
+                    update: { ...address },
+                },
+            };
+        }
+        if (contacts && contacts.length > 0) {
+            // Remove contatos antigos e cria novos (simplificado)
+            const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId }, include: { contacts: true } });
+            if (tenant) {
+                await this.prisma.contact.deleteMany({ where: { tenantId } });
+                await this.prisma.contact.createMany({
+                    data: contacts.map((c) => ({ ...c, tenantId })),
+                });
+            }
+        }
+        return this.prisma.tenant.update({ where: { id: tenantId }, data: updateData });
+    }
 };
 exports.TenantService = TenantService;
 exports.TenantService = TenantService = __decorate([

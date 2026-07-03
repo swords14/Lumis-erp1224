@@ -24,22 +24,38 @@ let TenantController = class TenantController {
     async findAll() {
         return this.tenantService.findAll();
     }
+    async getMe(req) {
+        return this.tenantService.findById(req.user.tenantId);
+    }
     async findById(id) {
         return this.tenantService.findById(id);
     }
     async create(data) {
         return this.tenantService.create(data);
     }
+    async updateMe(body, req) {
+        return this.tenantService.update(req.user.tenantId, body);
+    }
 };
 exports.TenantController = TenantController;
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TenantController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.Get)('me'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TenantController.prototype, "getMe", null);
+__decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -47,14 +63,23 @@ __decorate([
 ], TenantController.prototype, "findById", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TenantController.prototype, "create", null);
+__decorate([
+    (0, common_1.Put)('me'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], TenantController.prototype, "updateMe", null);
 exports.TenantController = TenantController = __decorate([
     (0, common_1.Controller)('tenants'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [tenant_service_1.TenantService])
 ], TenantController);
 //# sourceMappingURL=tenant.controller.js.map

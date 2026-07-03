@@ -20,8 +20,8 @@ const stock_module_1 = require("./modules/stock/stock.module");
 const sale_module_1 = require("./modules/sale/sale.module");
 const financial_module_1 = require("./modules/financial/financial.module");
 const audit_module_1 = require("./modules/audit/audit.module");
-const backup_module_1 = require("./modules/backup/backup.module");
 const assistant_module_1 = require("./modules/assistant/assistant.module");
+const backup_module_1 = require("./modules/backup/backup.module");
 const dashboard_module_1 = require("./modules/dashboard/dashboard.module");
 const events_module_1 = require("./events/events.module");
 const websocket_module_1 = require("./websocket/websocket.module");
@@ -33,7 +33,7 @@ let AppModule = class AppModule {
         // Aplica o middleware de tenant em todas as rotas (exceto auth)
         consumer
             .apply(tenant_middleware_1.TenantMiddleware)
-            .exclude({ path: 'auth/(.*)', method: common_1.RequestMethod.ALL }, { path: 'health', method: common_1.RequestMethod.ALL })
+            .exclude({ path: 'auth/(.*)', method: common_1.RequestMethod.ALL }, { path: 'health', method: common_1.RequestMethod.ALL }, { path: 'backup', method: common_1.RequestMethod.ALL })
             .forRoutes('*');
     }
 };
@@ -62,8 +62,8 @@ exports.AppModule = AppModule = __decorate([
             sale_module_1.SaleModule,
             financial_module_1.FinancialModule,
             audit_module_1.AuditModule,
-            backup_module_1.BackupModule,
             assistant_module_1.AssistantModule,
+            backup_module_1.BackupModule,
             dashboard_module_1.DashboardModule,
         ],
         providers: [

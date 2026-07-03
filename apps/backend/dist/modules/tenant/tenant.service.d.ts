@@ -65,4 +65,18 @@ export declare class TenantService {
         logo: string | null;
         config: import("@prisma/client/runtime/library").JsonValue;
     }>;
+    update(tenantId: string, data: any): Promise<{
+        name: string;
+        document: string | null;
+        status: string;
+        primaryColor: string | null;
+        fantasyName: string | null;
+        businessType: string;
+        taxRegime: string | null;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        logo: string | null;
+        config: import("@prisma/client/runtime/library").JsonValue;
+    }>;
 }

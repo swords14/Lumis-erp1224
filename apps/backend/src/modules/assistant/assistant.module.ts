@@ -1,3 +1,10 @@
 import { Module } from '@nestjs/common';
-@Module({})
+import { KnowledgeController } from './knowledge.controller';
+import { KnowledgeService } from './knowledge.service';
+
+@Module({
+  controllers: [KnowledgeController],
+  providers: [KnowledgeService],
+  exports: [KnowledgeService],
+})
 export class AssistantModule {}

@@ -16,6 +16,30 @@ export declare class TenantController {
         logo: string | null;
         config: import("@prisma/client/runtime/library").JsonValue;
     }[]>;
+    getMe(req: any): Promise<({
+        contacts: {
+            tenantId: string | null;
+            personId: string | null;
+            type: string;
+            label: string | null;
+            value: string;
+            isDefault: boolean;
+            id: string;
+        }[];
+    } & {
+        name: string;
+        document: string | null;
+        status: string;
+        primaryColor: string | null;
+        fantasyName: string | null;
+        businessType: string;
+        taxRegime: string | null;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        logo: string | null;
+        config: import("@prisma/client/runtime/library").JsonValue;
+    }) | null>;
     findById(id: string): Promise<({
         contacts: {
             tenantId: string | null;
@@ -41,6 +65,20 @@ export declare class TenantController {
         config: import("@prisma/client/runtime/library").JsonValue;
     }) | null>;
     create(data: any): Promise<{
+        name: string;
+        document: string | null;
+        status: string;
+        primaryColor: string | null;
+        fantasyName: string | null;
+        businessType: string;
+        taxRegime: string | null;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        logo: string | null;
+        config: import("@prisma/client/runtime/library").JsonValue;
+    }>;
+    updateMe(body: any, req: any): Promise<{
         name: string;
         document: string | null;
         status: string;

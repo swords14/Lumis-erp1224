@@ -21,6 +21,9 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async findAll(req) {
+        return this.userService.findAll(req.user.tenantId);
+    }
     async me(req) {
         return this.userService.findById(req.user.id);
     }
@@ -32,6 +35,13 @@ let UserController = class UserController {
     }
 };
 exports.UserController = UserController;
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)('me'),
     __param(0, (0, common_1.Req)()),

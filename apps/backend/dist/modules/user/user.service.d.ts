@@ -3,6 +3,15 @@ import type { UUID } from '@ferramenta/shared';
 export declare class UserService {
     private prisma;
     constructor(prisma: PrismaService);
+    findAll(tenantId: string): Promise<{
+        name: string;
+        role: string;
+        email: string;
+        status: string;
+        avatar: string | null;
+        id: string;
+        lastLoginAt: Date | null;
+    }[]>;
     findByEmail(email: string): Promise<{
         name: string;
         role: string;

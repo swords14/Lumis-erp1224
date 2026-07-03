@@ -9,7 +9,7 @@ interface Column<T> {
   width?: string;
   align?: 'left' | 'center' | 'right';
   render?: (item: T) => ReactNode;
-  format?: (value: any) => string;
+  format?: (value: any) => ReactNode;
 }
 
 interface DataTableProps<T> {

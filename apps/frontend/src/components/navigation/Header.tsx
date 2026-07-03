@@ -3,12 +3,14 @@ import { Bell, Moon, Sun, LogOut, X, Settings } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth.store';
 import { useUIStore } from '@/stores/ui.store';
 import { useNotificationStore } from '@/stores/notification.store';
+import { useI18nStore } from '@/stores/i18n.store';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Header() {
   const { user, logout } = useAuthStore();
   const { theme, setTheme } = useUIStore();
+  const { t } = useI18nStore();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationStore();
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
@@ -86,7 +88,7 @@ export function Header() {
                   className="w-full p-3 text-xs font-medium text-blue-500 hover:bg-blue-500/5 border-t border-white/10 flex items-center justify-center gap-1.5"
                 >
                   <Settings size={12} />
-                  Configurar notificações
+                  {t('settings')}
                 </button>
               </motion.div>
             )}
@@ -99,7 +101,7 @@ export function Header() {
         <button
           onClick={() => { logout(); navigate('/login'); }}
           className="p-2 rounded-xl hover:bg-red-500/10 text-gray-400 hover:text-red-500 transition-colors"
-          title="Sair"
+          title={t('logout')}
         >
           <LogOut size={16} />
         </button>

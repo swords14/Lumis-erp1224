@@ -7,6 +7,10 @@ import type { UUID } from '@ferramenta/shared';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  async findAll(tenantId: string) {
+    return this.prisma.user.findMany({ where: { tenantId }, select: { id: true, name: true, email: true, role: true, status: true, lastLoginAt: true, avatar: true } });
+  }
+
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } });
   }

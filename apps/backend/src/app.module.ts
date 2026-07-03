@@ -12,8 +12,8 @@ import { StockModule } from './modules/stock/stock.module';
 import { SaleModule } from './modules/sale/sale.module';
 import { FinancialModule } from './modules/financial/financial.module';
 import { AuditModule } from './modules/audit/audit.module';
-import { BackupModule } from './modules/backup/backup.module';
 import { AssistantModule } from './modules/assistant/assistant.module';
+import { BackupModule } from './modules/backup/backup.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { EventsModule } from './events/events.module';
 import { WebSocketModule } from './websocket/websocket.module';
@@ -47,8 +47,8 @@ import { APP_GUARD } from '@nestjs/core';
     SaleModule,
     FinancialModule,
     AuditModule,
-    BackupModule,
     AssistantModule,
+    BackupModule,
     DashboardModule,
   ],
   providers: [
@@ -67,6 +67,7 @@ export class AppModule implements NestModule {
       .exclude(
         { path: 'auth/(.*)', method: RequestMethod.ALL },
         { path: 'health', method: RequestMethod.ALL },
+        { path: 'backup', method: RequestMethod.ALL },
       )
       .forRoutes('*');
   }
