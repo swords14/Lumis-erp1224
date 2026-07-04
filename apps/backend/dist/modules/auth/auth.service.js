@@ -64,14 +64,21 @@ let AuthService = class AuthService {
      * Retorna tokens + lista de tenants disponíveis.
      */
     async login(dto, ip, userAgent) {
-        const user = await this.prisma.user.findUnique({
-            where: { email: dto.email.toLowerCase().trim() },
+        const login = dto.login.toLowerCase().trim();
+        const user = await this.prisma.user.findFirst({
+            where: {
+                OR: [
+                    { email: login },
+                    { name: login },
+                ],
+                status: 'ativo',
+            },
             include: {
                 tenant: true,
             },
         });
         if (!user) {
-            throw new common_1.UnauthorizedException('Email ou senha inválidos.');
+            throw new common_1.UnauthorizedException('Usuário ou senha inválidos.');
         }
         // Verifica bloqueio por tentativas
         if (user.lockedUntil && user.lockedUntil > new Date()) {

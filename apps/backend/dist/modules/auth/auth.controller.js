@@ -41,14 +41,7 @@ let AuthController = class AuthController {
     async switchTenant(req, tenantId, forwardedFor, userAgent) {
         const ip = forwardedFor || req?.ip;
         // Re-login com tenant específico
-        return this.authService.login({ email: req.user.email, password: '', tenantId }, ip, userAgent).catch(() => {
-            // Se falhar (senha vazia), usa switch direto
-            const hasAccess = this.authService.validateTenantAccess(req.user.id, tenantId);
-            if (!hasAccess) {
-                throw new Error('Sem acesso a esta empresa.');
-            }
-            return this.authService.login({ email: req.user.email, password: '', tenantId }, ip, userAgent);
-        });
+        return this.authService.login({ login: req.user.email, password: '', tenantId }, ip, userAgent);
     }
 };
 exports.AuthController = AuthController;

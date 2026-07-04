@@ -92,9 +92,9 @@ export interface ProductFilters extends BaseFilters {
 // ──── Auth ────
 
 export interface LoginRequest {
-  email: string;
+  login: string;
   password: string;
-  tenantId?: UUID; // opcional para login multiempresa
+  tenantId?: UUID;
 }
 
 export interface LoginResponse {

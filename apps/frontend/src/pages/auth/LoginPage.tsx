@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, Sparkles, Command, Fingerprint, UserPlus } from 'lucide-react';
+import { User, Lock, Eye, EyeOff, ArrowRight, Loader2, Sparkles, Command } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth.store';
 import { useI18nStore } from '@/stores/i18n.store';
 import api from '@/lib/api';
@@ -9,22 +9,22 @@ import toast from 'react-hot-toast';
 import type { LoginResponse } from '@ferramenta/shared';
 
 export function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [focusedField, setFocusedField] = useState<'email' | 'password' | null>(null);
+  const [focusedField, setFocusedField] = useState<'username' | 'password' | null>(null);
   const { login } = useAuthStore();
   const { t } = useI18nStore();
   const navigate = useNavigate();
-  const emailRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) { toast.error(t('fillAllFields')); return; }
+    if (!username || !password) { toast.error(t('fillAllFields')); return; }
     setLoading(true);
     try {
-      const { data } = await api.post<LoginResponse>('/auth/login', { email, password });
+      const { data } = await api.post<LoginResponse>('/auth/login', { login: username, password });
       login(data);
       toast.success(`${t('welcomeBack')}, ${data.user.name.split(' ')[0]}! ✨`);
       navigate('/', { replace: true });
@@ -37,7 +37,7 @@ export function LoginPage() {
   };
 
   // Focus email on mount
-  useEffect(() => { emailRef.current?.focus(); }, []);
+  useEffect(() => { usernameRef.current?.focus(); }, []);
 
   return (
     <motion.div
@@ -110,38 +110,38 @@ export function LoginPage() {
           </motion.div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
+            {/* Username */}
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.45 }}
             >
               <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider">
-                {t('emailLabel')}
+                {t('usernameLabel')}
               </label>
               <div
                 className={`relative transition-all duration-300 ${
-                  focusedField === 'email'
+                  focusedField === 'username'
                     ? 'ring-2 ring-blue-500/20 rounded-2xl'
                     : ''
                 }`}
               >
-                <Mail
+                <User
                   size={16}
                   className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 ${
-                    focusedField === 'email' ? 'text-blue-500' : 'text-gray-400'
+                    focusedField === 'username' ? 'text-blue-500' : 'text-gray-400'
                   }`}
                 />
                 <input
-                  ref={emailRef}
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onFocus={() => setFocusedField('email')}
+                  ref={usernameRef}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onFocus={() => setFocusedField('username')}
                   onBlur={() => setFocusedField(null)}
-                  placeholder={t('emailPlaceholder')}
+                  placeholder={t('usernamePlaceholder')}
                   className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-transparent hover:border-black/[0.06] dark:hover:border-white/[0.08] text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none transition-all duration-300"
-                  autoComplete="email"
+                  autoComplete="username"
                 />
               </div>
             </motion.div>
