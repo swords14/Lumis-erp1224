@@ -228,23 +228,6 @@ export function LoginPage() {
             </motion.div>
           </form>
 
-          {/* Footer links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="mt-7 flex items-center justify-between"
-          >
-            <button className="text-xs text-gray-400 hover:text-blue-500 transition-colors font-medium">
-              {t('forgotPassword')}
-            </button>
-            <div className="flex items-center gap-1.5 text-xs text-gray-400">
-              <UserPlus size={13} />
-              <button className="text-blue-500 hover:text-blue-600 font-medium transition-colors">
-                {t('createAccount')}
-              </button>
-            </div>
-          </motion.div>
         </div>
       </motion.div>
 
