@@ -340,7 +340,7 @@ https://ko-fi.com/zed964288
 
 ### 🐦 X (Twitter)
 
-https://x.com/swords14_
+https://x.com/swords14
 
 Você também pode ajudar:
 
