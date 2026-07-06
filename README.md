@@ -216,7 +216,7 @@ Mais de **200 traduções** distribuídas em toda a aplicação.
 ## Clone o projeto
 
 ```bash
-git clone https://github.com/swords14/new.git
+git clone https://github.com/swords14/Lumis-erp1224.git
 
 cd new
 ```
