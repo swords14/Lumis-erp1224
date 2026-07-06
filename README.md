@@ -22,7 +22,6 @@ Desktop • Offline • Multiempresa • Seguro • Rápido
 
 ☕ **Ko-fi:** https://ko-fi.com/zed964288
 
-🐦 **X (Twitter):** https://x.com/swords14_
 
 </div>
 
@@ -338,9 +337,6 @@ Se este projeto ajudou você ou sua empresa, considere apoiar o desenvolvimento.
 
 https://ko-fi.com/zed964288
 
-### 🐦 X (Twitter)
-
-https://x.com/swords14
 
 Você também pode ajudar:
 
